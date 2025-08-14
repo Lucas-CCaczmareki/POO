@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/POO.iml" filepath="$PROJECT_DIR$/POO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProjetoFinal/ProjetoFinal.iml" filepath="$PROJECT_DIR$/ProjetoFinal/ProjetoFinal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/ProjetoMiniCobalto/ProjetoMiniCobalto.iml" filepath="$PROJECT_DIR$/Aulas/ProjetoMiniCobalto/ProjetoMiniCobalto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/Teste_Aula/Teste_Aula.iml" filepath="$PROJECT_DIR$/Aulas/Teste_Aula/Teste_Aula.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/aula08.07/aula08.07.iml" filepath="$PROJECT_DIR$/Aulas/aula08.07/aula08.07.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/aula15.07_threads/aula15.07_threads.iml" filepath="$PROJECT_DIR$/Aulas/aula15.07_threads/aula15.07_threads.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/conceitos_basicos/conceitos_basicos.iml" filepath="$PROJECT_DIR$/Exercicios/conceitos_basicos/conceitos_basicos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex1.1/ex1.1.iml" filepath="$PROJECT_DIR$/Exercicios/ex1.1/ex1.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex1.2/ex1.2.iml" filepath="$PROJECT_DIR$/Exercicios/ex1.2/ex1.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex1.3/ex1.3.iml" filepath="$PROJECT_DIR$/Exercicios/ex1.3/ex1.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex1.4/ex1.4.iml" filepath="$PROJECT_DIR$/Exercicios/ex1.4/ex1.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex10.1/ex10.1.iml" filepath="$PROJECT_DIR$/Exercicios/ex10.1/ex10.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex10.2/ex10.2.iml" filepath="$PROJECT_DIR$/Exercicios/ex10.2/ex10.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex2.1/ex2.1.iml" filepath="$PROJECT_DIR$/Exercicios/ex2.1/ex2.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex2.2/ex2.2.iml" filepath="$PROJECT_DIR$/Exercicios/ex2.2/ex2.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex2.3/ex2.3.iml" filepath="$PROJECT_DIR$/Exercicios/ex2.3/ex2.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex2.4/ex2.4.iml" filepath="$PROJECT_DIR$/Exercicios/ex2.4/ex2.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex3.1/ex3.1.iml" filepath="$PROJECT_DIR$/Exercicios/ex3.1/ex3.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex3.2/ex3.2.iml" filepath="$PROJECT_DIR$/Exercicios/ex3.2/ex3.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex3.3/ex3.3.iml" filepath="$PROJECT_DIR$/Exercicios/ex3.3/ex3.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex3.4/ex3.4.iml" filepath="$PROJECT_DIR$/Exercicios/ex3.4/ex3.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex4.1/ex4.1.iml" filepath="$PROJECT_DIR$/Exercicios/ex4.1/ex4.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex4.3/ex4.3.iml" filepath="$PROJECT_DIR$/Exercicios/ex4.3/ex4.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex4.4/ex4.4.iml" filepath="$PROJECT_DIR$/Exercicios/ex4.4/ex4.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex5.3/ex5.3.iml" filepath="$PROJECT_DIR$/Exercicios/ex5.3/ex5.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex5.4/ex5.4.iml" filepath="$PROJECT_DIR$/Exercicios/ex5.4/ex5.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex6.4/ex6.4.iml" filepath="$PROJECT_DIR$/Exercicios/ex6.4/ex6.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex7.1/ex7.1.iml" filepath="$PROJECT_DIR$/Exercicios/ex7.1/ex7.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex7.2/ex7.2.iml" filepath="$PROJECT_DIR$/Exercicios/ex7.2/ex7.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex7.3/ex7.3.iml" filepath="$PROJECT_DIR$/Exercicios/ex7.3/ex7.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex7.4/ex7.4.iml" filepath="$PROJECT_DIR$/Exercicios/ex7.4/ex7.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex8.2/ex8.2.iml" filepath="$PROJECT_DIR$/Exercicios/ex8.2/ex8.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex8.3/ex8.3.iml" filepath="$PROJECT_DIR$/Exercicios/ex8.3/ex8.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex9.1/ex9.1.iml" filepath="$PROJECT_DIR$/Exercicios/ex9.1/ex9.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex9.2/ex9.2.iml" filepath="$PROJECT_DIR$/Exercicios/ex9.2/ex9.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/ex9.4/ex9.4.iml" filepath="$PROJECT_DIR$/Exercicios/ex9.4/ex9.4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/ex_interfacesGraficas/ex_interfacesGraficas.iml" filepath="$PROJECT_DIR$/Aulas/ex_interfacesGraficas/ex_interfacesGraficas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exercicios/interface_grafica/interface_grafica.iml" filepath="$PROJECT_DIR$/Exercicios/interface_grafica/interface_grafica.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/p2_ex3/p2_ex3.iml" filepath="$PROJECT_DIR$/Aulas/p2_ex3/p2_ex3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/p2_ex4/p2_ex4.iml" filepath="$PROJECT_DIR$/Aulas/p2_ex4/p2_ex4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/pratica_lccaczmareki/pratica_lccaczmareki.iml" filepath="$PROJECT_DIR$/Aulas/pratica_lccaczmareki/pratica_lccaczmareki.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/treinoClasses/treinoClasses.iml" filepath="$PROJECT_DIR$/Aulas/treinoClasses/treinoClasses.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aulas/treinoEncapsulamento/treinoEncapsulamento.iml" filepath="$PROJECT_DIR$/Aulas/treinoEncapsulamento/treinoEncapsulamento.iml" />
+    </modules>
+  </component>
+</project>
