@@ -1,3 +1,5 @@
+Feito por IA, precisamos atualizar
+
 # Pokémon-UFPel
 
 ## Jogo de Pokémon para a disciplina de Programação Orientada a Objetos 2025/1
