@@ -1,7 +1,0 @@
-package Java.Java_teste;
-
-public class teste {
-    public static void main(String[] args) {
-        System.out.println("Ola mundo!");
-    }
-}

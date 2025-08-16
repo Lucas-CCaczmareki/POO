@@ -1,10 +1,20 @@
-/Exercicios/ex7.2/nbproject/private/
-/Exercicios/ex7.3/nbproject/private/
-/Exercicios/ex8.2/nbproject/private/
-/Exercicios/ex8.3/nbproject/private/
-/Exercicios/ex9.1/nbproject/private/
-/Exercicios/ex9.2/nbproject/private/
-/Exercicios/ex9.4/nbproject/private/
-/Exercicios/ex10.1/nbproject/private/
-/Exercicios/ex10.2/nbproject/private/
-/ProjetoFinal/nbproject/private/
+# Arquivos compilados
+build/
+dist/
+*.class
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.tmp
+*.temp
