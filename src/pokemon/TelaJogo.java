@@ -91,6 +91,10 @@ public class TelaJogo extends JFrame {
         JButton btnDebug = new JButton("Debug");
         btnDebug.addActionListener(e -> alternarDebug());
         
+        // Salvar/Carregar
+        JButton btnSalvarCarregar = new JButton("Salvar/Carregar");
+        btnSalvarCarregar.addActionListener(e -> abrirTelaSalvarCarregar());
+        
         // Sair
         JButton btnSair = new JButton("Sair");
         btnSair.addActionListener(e -> sairJogo());
@@ -100,6 +104,8 @@ public class TelaJogo extends JFrame {
         painelControles.add(btnDica);
         painelControles.add(Box.createVerticalStrut(10));
         painelControles.add(btnDebug);
+        painelControles.add(Box.createVerticalStrut(10));
+        painelControles.add(btnSalvarCarregar);
         painelControles.add(Box.createVerticalStrut(10));
         painelControles.add(btnSair);
         
@@ -132,10 +138,15 @@ public class TelaJogo extends JFrame {
         if (pokemonEncontrado == null) {
             botoes[linha][coluna].setText("Vazio");
             botoes[linha][coluna].setBackground(Color.LIGHT_GRAY);
+            botoes[linha][coluna].setIcon(null);
             JOptionPane.showMessageDialog(this, "Nada encontrado nesta posição!");
         } else if (pokemonEncontrado.isSelvagem()) {
-            botoes[linha][coluna].setText("Pokémon Selvagem");
+            // Mostra imagem do Pokémon selvagem
+            ImageIcon pokemonIcon = PokemonImageManager.getPokemonImage(pokemonEncontrado.getNome());
+            botoes[linha][coluna].setIcon(pokemonIcon);
+            botoes[linha][coluna].setText("");
             botoes[linha][coluna].setBackground(Color.ORANGE);
+            
             JOptionPane.showMessageDialog(this, "Pokémon selvagem encontrado: " + 
                 pokemonEncontrado.getNome() + " (" + pokemonEncontrado.getTipo() + ") - Tentando capturar...");
             
@@ -143,15 +154,28 @@ public class TelaJogo extends JFrame {
             jogo.fazerJogadaJogador(linha, coluna);
         } else {
             // Pokémon do computador
-            botoes[linha][coluna].setText("Pokémon Adversário");
+            ImageIcon pokemonIcon = PokemonImageManager.getPokemonImage(pokemonEncontrado.getNome());
+            botoes[linha][coluna].setIcon(pokemonIcon);
+            botoes[linha][coluna].setText("");
             botoes[linha][coluna].setBackground(Color.YELLOW);
+            
             JOptionPane.showMessageDialog(this, "Pokémon adversário encontrado: " + 
                 pokemonEncontrado.getNome() + " (" + pokemonEncontrado.getTipo() + ") - Iniciando batalha...");
             
-            // Simula batalha
+            // Inicia batalha em nova janela
+            if (jogo.getJogador().getPokemonPrincipal() != null) {
+                TelaBatalha telaBatalha = new TelaBatalha(this, 
+                    jogo.getJogador().getPokemonPrincipal(), 
+                    pokemonEncontrado, jogo);
+                telaBatalha.setVisible(true);
+            }
+            
+            // Simula jogada
             jogo.fazerJogadaJogador(linha, coluna);
         }
         
+        celula.setRevelada(true);
+        celula.setReveladaPeloJogador(true);
         atualizarInterface();
         
         // Verificar fim do jogo apenas se o jogo não está mais ativo
@@ -298,24 +322,28 @@ public class TelaJogo extends JFrame {
                 Celula celula = jogo.getTabuleiro().getCelula(i, j);
                 JButton botao = botoes[i][j];
                 
-                if (celula.isRevelada()) {
+                if (celula.isRevelada() || modoDebug) {
                     // Célula revelada - mostrar conteúdo
                     if (celula.estaVazia()) {
                         botao.setText("Vazio");
                         botao.setBackground(Color.LIGHT_GRAY);
+                        botao.setIcon(null);
                     } else {
                         Pokemon p = celula.getPokemon();
+                        ImageIcon pokemonIcon = PokemonImageManager.getPokemonImage(p.getNome());
+                        botao.setIcon(pokemonIcon);
+                        botao.setText("");
+                        
                         if (p.isSelvagem()) {
-                            botao.setText("Pokémon Selvagem");
                             botao.setBackground(Color.ORANGE);
                         } else {
-                            botao.setText("Pokémon Adversário");
                             botao.setBackground(Color.YELLOW);
                         }
                     }
                 } else {
                     // Célula não revelada - mostrar "?"
                     botao.setText("?");
+                    botao.setIcon(null);
                     colorirRegiao(i, j);
                 }
             }
@@ -375,5 +403,10 @@ public class TelaJogo extends JFrame {
         }
         
         this.dispose();
+    }
+    
+    private void abrirTelaSalvarCarregar() {
+        TelaSalvarCarregar telaSalvarCarregar = new TelaSalvarCarregar(this, jogo);
+        telaSalvarCarregar.setVisible(true);
     }
 }

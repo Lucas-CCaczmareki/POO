@@ -84,9 +84,9 @@ public class TelaBoasVindas extends JFrame {
     }
     
     private void distribuicaoAleatoria() {
-        // Cria Pokémons iniciais para cada treinador
-        Pokemon pokemonJogador = new PokemonAgua("Psyduck");
-        Pokemon pokemonComputador = new PokemonTerra("Sandshrew");
+        // Cria Pokémons iniciais para cada treinador (apenas os que têm imagens)
+        Pokemon pokemonJogador = PokemonFactory.criarPokemon("Squirtle");
+        Pokemon pokemonComputador = PokemonFactory.criarPokemon("Sandshrew");
         
         // Posiciona Pokémons no tabuleiro primeiro
         try {
@@ -120,18 +120,14 @@ public class TelaBoasVindas extends JFrame {
     }
     
     private void posicionarPokemonsAleatorios() {
-        // Lista de Pokémons selvagens baseada na imagem
+        // Lista de Pokémons selvagens (apenas os que têm imagens)
         Pokemon[] pokemons = {
-            new PokemonAgua("Wartortle"),
-            new PokemonFloresta("Bulbasaur"),
-            new PokemonFloresta("Caterpie"),
-            new PokemonEletrico("Raichu"),
-            new PokemonEletrico("Pikachu"),
-            new PokemonTerra("Sandslash"),
-            new PokemonAgua("Squirtle"),
-            new PokemonFloresta("Oddish"),
-            new PokemonEletrico("Voltorb"),
-            new PokemonTerra("Diglett")
+            PokemonFactory.criarPokemon("Bulbasaur"),
+            PokemonFactory.criarPokemon("Caterpie"),
+            PokemonFactory.criarPokemon("Diglet"),
+            PokemonFactory.criarPokemon("Magnemite"),
+            PokemonFactory.criarPokemon("Paras"),
+            PokemonFactory.criarPokemon("Pikachu")
         };
         
         for (Pokemon pokemon : pokemons) {

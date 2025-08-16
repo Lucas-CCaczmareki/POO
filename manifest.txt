@@ -1,0 +1,2 @@
+Main-Class: pokemon.Main
+Class-Path: .

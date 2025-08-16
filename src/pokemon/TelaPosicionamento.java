@@ -32,7 +32,7 @@ public class TelaPosicionamento extends JFrame {
         JPanel painelSuperior = new JPanel();
         painelSuperior.setBorder(BorderFactory.createTitledBorder("Selecionar Pokémon"));
         
-        String[] pokemons = {"Psyduck (Água)", "Sandshrew (Terra)"};
+        String[] pokemons = {"Squirtle (Agua)", "Sandshrew (Terra)", "Bulbasaur (Floresta)", "Pikachu (Eletrico)"};
         comboPokemon = new JComboBox<>(pokemons);
         comboPokemon.addActionListener(e -> selecionarPokemon());
         
@@ -81,7 +81,7 @@ public class TelaPosicionamento extends JFrame {
     
     private void colorirRegiao(int linha, int coluna) {
         if (linha < 4 && coluna < 4) {
-            botoes[linha][coluna].setBackground(new Color(173, 216, 230)); // Água - azul claro
+            botoes[linha][coluna].setBackground(new Color(173, 216, 230)); // Agua - azul claro
         } else if (linha < 4 && coluna >= 4) {
             botoes[linha][coluna].setBackground(new Color(144, 238, 144)); // Floresta - verde claro
         } else if (linha >= 4 && coluna < 4) {
@@ -93,10 +93,14 @@ public class TelaPosicionamento extends JFrame {
     
     private void selecionarPokemon() {
         String selecao = (String) comboPokemon.getSelectedItem();
-        if (selecao.contains("Psyduck")) {
-            pokemonSelecionado = new PokemonAgua("Psyduck");
+        if (selecao.contains("Squirtle")) {
+            pokemonSelecionado = PokemonFactory.criarPokemon("Squirtle");
         } else if (selecao.contains("Sandshrew")) {
-            pokemonSelecionado = new PokemonTerra("Sandshrew");
+            pokemonSelecionado = PokemonFactory.criarPokemon("Sandshrew");
+        } else if (selecao.contains("Bulbasaur")) {
+            pokemonSelecionado = PokemonFactory.criarPokemon("Bulbasaur");
+        } else if (selecao.contains("Pikachu")) {
+            pokemonSelecionado = PokemonFactory.criarPokemon("Pikachu");
         }
     }
     
@@ -127,17 +131,16 @@ public class TelaPosicionamento extends JFrame {
     
     private void posicionarPokemonsRestantes() {
         // Posiciona Pokémon do computador
-        Pokemon pokemonComputador = new PokemonTerra("Sandshrew");
+        Pokemon pokemonComputador = PokemonFactory.criarPokemon("Diglet");
         jogo.getComputador().adicionarPokemon(pokemonComputador);
         
-        // Posiciona Pokémons selvagens
+        // Posiciona Pokémons selvagens (apenas os que têm imagens)
         Pokemon[] pokemons = {
-            new PokemonAgua("Wartortle"),
-            new PokemonFloresta("Bulbasaur"),
-            new PokemonFloresta("Caterpie"),
-            new PokemonEletrico("Raichu"),
-            new PokemonEletrico("Pikachu"),
-            new PokemonTerra("Sandslash")
+            PokemonFactory.criarPokemon("Bulbasaur"),
+            PokemonFactory.criarPokemon("Caterpie"),
+            PokemonFactory.criarPokemon("Magnemite"),
+            PokemonFactory.criarPokemon("Paras"),
+            PokemonFactory.criarPokemon("Pikachu")
         };
         
         for (Pokemon pokemon : pokemons) {
@@ -149,27 +152,27 @@ public class TelaPosicionamento extends JFrame {
         // Posiciona automaticamente todos os Pokémons
         try {
             // Pokémon do jogador
-            Pokemon psyduck = new PokemonAgua("Psyduck");
-            jogo.getTabuleiro().posicionarPokemon(psyduck, 0, 3);
-            jogo.getJogador().adicionarPokemon(psyduck);
-            botoes[0][3].setText("Psyduck");
+            Pokemon squirtle = PokemonFactory.criarPokemon("Squirtle");
+            jogo.getTabuleiro().posicionarPokemon(squirtle, 0, 3);
+            jogo.getJogador().adicionarPokemon(squirtle);
+            botoes[0][3].setText("Squirtle");
             botoes[0][3].setEnabled(false);
             
             // Pokémon do computador (escondido no tabuleiro)
-            Pokemon sandshrew = new PokemonTerra("Sandshrew");
-            jogo.getTabuleiro().posicionarPokemon(sandshrew, 4, 0);
-            jogo.getComputador().adicionarPokemon(sandshrew);
+            Pokemon diglet = PokemonFactory.criarPokemon("Diglet");
+            jogo.getTabuleiro().posicionarPokemon(diglet, 4, 0);
+            jogo.getComputador().adicionarPokemon(diglet);
             // NÃO mostra o Pokémon do computador na tela de posicionamento
             // Ele ficará escondido até ser descoberto pelo jogador
             
-            // Pokémons selvagens baseados na imagem
+            // Pokémons selvagens baseados nas imagens disponíveis
             Pokemon[] pokemons = {
-                new PokemonFloresta("Bulbasaur"), // 1,5
-                new PokemonAgua("Wartortle"),     // 2,1
-                new PokemonFloresta("Caterpie"),  // 3,6
-                new PokemonEletrico("Raichu"),    // 5,5
-                new PokemonEletrico("Pikachu"),   // 6,4
-                new PokemonTerra("Sandslash")     // 7,2
+                PokemonFactory.criarPokemon("Bulbasaur"), // 1,5
+                PokemonFactory.criarPokemon("Caterpie"),  // 2,1
+                PokemonFactory.criarPokemon("Magnemite"), // 3,6
+                PokemonFactory.criarPokemon("Paras"),     // 5,5
+                PokemonFactory.criarPokemon("Pikachu"),   // 6,4
+                PokemonFactory.criarPokemon("Sandshrew")  // 7,2
             };
             
             int[][] posicoes = {{1,5}, {2,1}, {3,6}, {5,5}, {6,4}, {7,2}};

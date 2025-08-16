@@ -1,6 +1,8 @@
 package pokemon;
 
-public class Celula {
+import java.io.Serializable;
+
+public class Celula implements Serializable {
     private Pokemon pokemon;
     private boolean revelada;
     private boolean reveladaPeloJogador;

@@ -1,8 +1,9 @@
 package pokemon;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Tabuleiro {
+public class Tabuleiro implements Serializable {
     private static final int TAMANHO = 8;
     private Celula[][] grade;
     private Random random;
@@ -55,13 +56,13 @@ public class Tabuleiro {
     
     public boolean isRegiaoValida(String tipo, int linha, int coluna) {
         switch (tipo) {
-            case "Água":
+            case "Agua":
                 return linha < TAMANHO/2 && coluna < TAMANHO/2;
             case "Floresta":
                 return linha < TAMANHO/2 && coluna >= TAMANHO/2;
             case "Terra":
                 return linha >= TAMANHO/2 && coluna < TAMANHO/2;
-            case "Eletricidade":
+            case "Eletrico":
                 return linha >= TAMANHO/2 && coluna >= TAMANHO/2;
             default:
                 return false;

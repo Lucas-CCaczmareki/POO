@@ -3,7 +3,7 @@ package pokemon;
 public class PokemonEletrico extends Pokemon {
     
     public PokemonEletrico(String nome) {
-        super(nome, "Eletricidade", 40);
+        super(nome, "Eletrico", 40);
     }
     
     @Override

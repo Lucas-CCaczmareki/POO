@@ -1,8 +1,9 @@
 package pokemon;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public abstract class Pokemon implements IAtaque {
+public abstract class Pokemon implements IAtaque, Serializable {
     protected int energia;
     protected int forca;
     protected int experiencia;
@@ -28,15 +29,15 @@ public abstract class Pokemon implements IAtaque {
     public void aumentarExperiencia(int pontos) {
         this.experiencia += pontos;
         if (this.experiencia >= this.nivel * 100) {
-            this.avançarNivel();
+            this.avancarNivel();
         }
     }
     
-    public void avançarNivel() {
+    public void avancarNivel() {
         this.nivel++;
         this.forca += 10;
         this.energia = 100;
-        System.out.println(nome + " subiu para o nível " + nivel + "!");
+        System.out.println(nome + " subiu para o nivel " + nivel + "!");
     }
     
     public void receberDano(int dano) {

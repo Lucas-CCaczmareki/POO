@@ -1,10 +1,11 @@
 package pokemon;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Jogo {
+public class Jogo implements Serializable {
     private Tabuleiro tabuleiro;
     private Treinador jogador;
     private Treinador computador;

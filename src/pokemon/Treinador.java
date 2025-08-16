@@ -1,9 +1,10 @@
 package pokemon;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Treinador {
+public class Treinador implements Serializable {
     private String nome;
     private List<Pokemon> time;
     private List<Pokemon> mochila;
