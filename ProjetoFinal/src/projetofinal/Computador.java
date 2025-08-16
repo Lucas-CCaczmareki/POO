@@ -1,27 +1,60 @@
 package projetofinal;
 
+import java.io.Serializable;
+import java.util.Random;
+
 /**
  * Representa o treinador controlado pelo computador.
- * [cite_start]Suas jogadas são geradas aleatoriamente e executadas em uma thread separada. [cite: 65, 142]
+ * Herda de Treinador e implementa Runnable para que sua jogada seja
+ * aleatória e executada em uma thread separada, simulando inteligência reativa.
  */
-public class Computador extends Treinador implements Runnable {
+public class Computador extends Treinador implements Runnable, Serializable {
 
-    public Computador(String nome) {
+    // A referência ao Jogo é transient para evitar problemas de serialização em cascata.
+    // Ela será reinjetada ao carregar um jogo.
+    private transient Jogo jogo;
+
+    public Computador(String nome, Jogo jogo) {
         super(nome);
+        this.jogo = jogo;
     }
 
     /**
-     * Lógica da jogada do computador, que será executada em uma nova thread.
+     * INFORMAÇÕES IMPORTANTES: Deve fazer uso de Threads para Jogada do Computador.
+     * Este método é o ponto de entrada da thread do computador.
      */
     @Override
     public void run() {
-        // Simula o "tempo de pensar" do computador. [cite: 140]
         try {
-            Thread.sleep(2000); // Ex: espera 2 segundos.
+            // Adiciona um delay para simular o "tempo de pensar".
+            System.out.println(getNome() + " está pensando...");
+            Thread.sleep(2000); // Pausa a execução por 2 segundos
+
+            // Lógica para escolher uma jogada aleatória
+            Random random = new Random();
+            Tabuleiro tabuleiro = jogo.getTabuleiro();
+            int tamanho = tabuleiro.getTamanhoN();
+            int linha, coluna;
+
+            // Procura uma célula que ainda não foi revelada
+            do {
+                linha = random.nextInt(tamanho);
+                coluna = random.nextInt(tamanho);
+            } while (tabuleiro.getGrade()[linha][coluna].isRevelada());
+
+            System.out.println(getNome() + " escolheu jogar na posição [" + linha + "][" + coluna + "].");
+
+            // Chama o jogo de volta para processar a jogada escolhida na thread principal da GUI
+            jogo.processarJogadaComputador(linha, coluna);
+
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            System.err.println("A thread do computador foi interrompida.");
         }
-        System.out.println("O computador está fazendo sua jogada...");
-        // Lógica para escolher uma célula aleatoriamente e realizar a ação.
+    }
+
+    // Método para reinjetar a referência ao jogo ao carregar
+    public void setJogo(Jogo jogo) {
+        this.jogo = jogo;
     }
 }

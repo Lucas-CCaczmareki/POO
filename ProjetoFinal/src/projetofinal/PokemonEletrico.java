@@ -1,13 +1,24 @@
 package projetofinal;
+import java.util.Random;
 
-/**
- * Representa um Pokémon do tipo Elétrico.
- * [cite_start]Habilidade: chance de paralisar o adversário por 1 rodada. [cite: 90]
- */
 public class PokemonEletrico extends Pokemon {
+
+    private static final double CHANCE_PARALISAR = 0.25; // 25%
+
+    public PokemonEletrico(String nome, int energia, int forca, int nivel) {
+        super(nome, "Elétrico", energia, forca, nivel);
+    }
+
     @Override
-    public int calcularDano() {
-        // Lógica de ataque que inclui a chance de paralisar.
-        return getForca() + getNivel();
+    public int calcularDano(int numeroDoTurno) {
+        return new Random().nextInt(getForca() + 1) * getNivel() + getPontosDeExperiencia();
+    }
+
+    /**
+     * [cite_start]Habilidade especial: Chance de paralisar o adversário por 1 rodada. [cite: 90]
+     * @return true se conseguiu paralisar, false caso contrário.
+     */
+    public boolean tentarParalisar() {
+        return new Random().nextDouble() < CHANCE_PARALISAR;
     }
 }
