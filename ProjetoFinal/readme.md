@@ -12,7 +12,7 @@ Jogo de Pokémon para POO - UFPel 2025/1
 - `javac -d . src/projetofinal/*.java`
 - `java projetofinal.Main`
 - OU
-- `cd ProjetoFinal && javac -d . src/projetofinal/*.java && java projetofinal.Main`
+- `cd ProjetoFinal && javac -d . src/projetofinal/*.java && java projetofinal.Main && cd ..`
 
 ### Pronto!
 - Janela gráfica abre

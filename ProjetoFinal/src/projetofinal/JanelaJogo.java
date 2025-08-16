@@ -13,6 +13,7 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
     private final JLabel labelPontuacaoComputador;
     private final JLabel labelStatus;
     private final JButton btnDica;
+    private final JButton btnDebug;
     private final int TAMANHO_GRID;
 
     public JanelaJogo(Jogo jogo) {
@@ -62,7 +63,7 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
         JPanel painelOpcoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
         JButton btnTrocarPokemon = new JButton("Trocar Pokémon");
         btnDica = new JButton("Dica (" + jogo.getDicasRestantes() + ")");
-        JButton btnDebug = new JButton("Debug");
+        btnDebug = new JButton("Debug");
         JButton btnSair = new JButton("Sair");
 
         btnTrocarPokemon.addActionListener(e -> {
@@ -126,7 +127,7 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
             }
         });
 
-        btnDebug.addActionListener(e -> jogo.ativarModoDebug());
+        btnDebug.addActionListener(e -> jogo.toggleModoDebug());
 
         btnSair.addActionListener(e -> {
             Object[] options = {"Salvar e Sair", "Sair sem Salvar", "Cancelar"};
@@ -162,6 +163,10 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                     Pokemon pFugitivo = (Pokemon) dados;
                     JOptionPane.showMessageDialog(this, "Ah, não! O " + pFugitivo.getNome() + " escapou da Pokébola!", "Captura Falhou", JOptionPane.WARNING_MESSAGE);
                     break;
+                case "DEBUG_TOGGLED":
+                    // Atualizar texto do botão debug
+                    btnDebug.setText(jogo.isModoDebugAtivo() ? "Debug: ON" : "Debug: OFF");
+                    break;
             }
 
             if (jogo.isJogoTerminou()) {
@@ -178,12 +183,16 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
         labelPontuacaoComputador.setText("Pontuação Computador: " + jogo.getComputador().getPontuacaoDoTime());
         labelStatus.setText(jogo.isTurnoDoJogador() ? "É a sua vez! Pokémon: " + jogo.getJogador().getPokemonPrincipal().getNome() : "Vez do Computador...");
         btnDica.setText("Dica (" + jogo.getDicasRestantes() + ")");
+        btnDebug.setText(jogo.isModoDebugAtivo() ? "Debug: ON" : "Debug: OFF");
 
         for (int i = 0; i < TAMANHO_GRID; i++) {
             for (int j = 0; j < TAMANHO_GRID; j++) {
                 JButton botao = botoesGrid[i][j];
                 Celula celula = jogo.getTabuleiro().getGrade()[i][j];
+                
+                // Só habilita se não está revelada E é turno do jogador
                 botao.setEnabled(!celula.isRevelada() && jogo.isTurnoDoJogador());
+                
                 if (celula.isRevelada()) {
                     if (celula.estaVazia()) {
                         botao.setText("");
@@ -191,6 +200,10 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                     } else {
                         botao.setText(String.valueOf(celula.getPokemon().getNome().charAt(0)));
                     }
+                } else {
+                    // Célula não revelada - esconder conteúdo
+                    botao.setText("?");
+                    botao.setBackground(null);
                 }
             }
         }

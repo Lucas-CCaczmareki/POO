@@ -22,6 +22,7 @@ public class Jogo implements Serializable {
     private int dicasRestantes;
     private int pokemonsSelvagensRestantes;
     private boolean jogoTerminou;
+    private boolean modoDebugAtivo;
 
     private transient List<ObservadorJogo> observadores;
 
@@ -34,6 +35,7 @@ public class Jogo implements Serializable {
         this.numeroDoTurno = 1;
         this.dicasRestantes = 3; // ATIVIDADE 2: Máximo de 3 dicas por jogo [cite: 115]
         this.jogoTerminou = false;
+        this.modoDebugAtivo = false;
 
         configuracaoInicialAleatoria();
     }
@@ -98,6 +100,11 @@ public class Jogo implements Serializable {
         Celula celula = tabuleiro.getGrade()[linha][coluna];
         if (celula.isRevelada()) return;
         celula.setRevelada(true);
+        
+        // Marcar como revelada pelo jogador se for o jogador humano
+        if (treinador == jogador) {
+            celula.setReveladaPeloJogador(true);
+        }
 
         Pokemon pEncontrado = celula.getPokemon();
 
@@ -181,13 +188,27 @@ public class Jogo implements Serializable {
         return false;
     }
 
-    public void ativarModoDebug() {
-        for (Celula[] linha : tabuleiro.getGrade()) {
-            for (Celula celula : linha) {
-                celula.setRevelada(true);
+    public void toggleModoDebug() {
+        modoDebugAtivo = !modoDebugAtivo;
+        
+        if (modoDebugAtivo) {
+            // Ativar debug - revelar todas as células
+            for (Celula[] linha : tabuleiro.getGrade()) {
+                for (Celula celula : linha) {
+                    celula.setRevelada(true);
+                }
+            }
+        } else {
+            // Desativar debug - esconder células que não foram reveladas pelo jogador
+            for (Celula[] linha : tabuleiro.getGrade()) {
+                for (Celula celula : linha) {
+                    // Só mantém revelada se foi revelada pelo jogador
+                    celula.setRevelada(celula.isReveladaPeloJogador());
+                }
             }
         }
-        notificarObservadores("JOGADA_CONCLUIDA", null);
+        
+        notificarObservadores("DEBUG_TOGGLED", null);
     }
 
     public void adicionarObservador(ObservadorJogo observador) {
@@ -218,4 +239,5 @@ public class Jogo implements Serializable {
     public boolean isTurnoDoJogador() { return turnoDoJogador; }
     public boolean isJogoTerminou() { return jogoTerminou; }
     public int getDicasRestantes() { return dicasRestantes; }
+    public boolean isModoDebugAtivo() { return modoDebugAtivo; }
 }

@@ -13,6 +13,7 @@ public class Celula implements Serializable {
     private final int coluna;
     private Pokemon pokemon;
     private boolean revelada;
+    private boolean reveladaPeloJogador;
 
     /**
      * Construtor de uma Célula.
@@ -24,6 +25,7 @@ public class Celula implements Serializable {
         this.coluna = coluna;
         this.pokemon = null; // Toda célula começa vazia.
         this.revelada = false; // E não revelada.
+        this.reveladaPeloJogador = false; // E não foi revelada pelo jogador.
     }
 
     public boolean estaVazia() {
@@ -37,4 +39,6 @@ public class Celula implements Serializable {
     public void setPokemon(Pokemon pokemon) { this.pokemon = pokemon; }
     public boolean isRevelada() { return revelada; }
     public void setRevelada(boolean revelada) { this.revelada = revelada; }
+    public boolean isReveladaPeloJogador() { return reveladaPeloJogador; }
+    public void setReveladaPeloJogador(boolean reveladaPeloJogador) { this.reveladaPeloJogador = reveladaPeloJogador; }
 }
