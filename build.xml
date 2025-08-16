@@ -1,45 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="PokemonGame" default="compile" basedir=".">
+<project name="PokemonGame" default="run" basedir=".">
+    
+    <!-- Propriedades do projeto -->
     <property name="src.dir" value="src"/>
     <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="lib.dir" value="lib"/>
-    <property name="dist.dir" value="dist"/>
     <property name="main.class" value="pokemon.Main"/>
     
+    <!-- Limpar diretórios de build -->
     <target name="clean">
         <delete dir="${build.dir}"/>
-        <delete dir="${dist.dir}"/>
+        <echo message="Diretórios de build limpos"/>
     </target>
     
+    <!-- Criar diretórios necessários -->
     <target name="init">
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${classes.dir}"/>
-        <mkdir dir="${dist.dir}"/>
+        <echo message="Diretórios criados"/>
     </target>
     
+    <!-- Compilar o projeto -->
     <target name="compile" depends="init">
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
-            <classpath>
-                <fileset dir="${lib.dir}" includes="*.jar"/>
-            </classpath>
+        <javac srcdir="${src.dir}" 
+               destdir="${classes.dir}" 
+               includeantruntime="false"
+               debug="true"
+               source="8"
+               target="8">
+            <compilerarg value="-encoding"/>
+            <compilerarg value="UTF-8"/>
         </javac>
+        <echo message="Compilação concluída"/>
     </target>
     
+    <!-- Executar o jogo -->
     <target name="run" depends="compile">
-        <java classname="${main.class}" fork="true">
+        <java classname="${main.class}" 
+              fork="true" 
+              failonerror="true">
             <classpath>
                 <pathelement location="${classes.dir}"/>
-                <fileset dir="${lib.dir}" includes="*.jar"/>
             </classpath>
         </java>
     </target>
     
+    <!-- Criar JAR executável -->
     <target name="jar" depends="compile">
-        <jar destfile="${dist.dir}/pokemon-game.jar" basedir="${classes.dir}">
+        <jar destfile="${build.dir}/pokemon-game.jar" basedir="${classes.dir}">
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value="."/>
             </manifest>
         </jar>
+        <echo message="JAR criado: ${build.dir}/pokemon-game.jar"/>
     </target>
+    
+    <!-- Executar JAR -->
+    <target name="run-jar" depends="jar">
+        <java jar="${build.dir}/pokemon-game.jar" fork="true"/>
+    </target>
+    
 </project>
