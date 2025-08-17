@@ -103,6 +103,13 @@ public class Tabuleiro implements Serializable {
         }
         return null; // Não encontrou nenhuma célula válida para fuga
     }
+    public String getTipoRegiao(int linha, int coluna) {
+        int meio = tamanhoN / 2;
+        if (linha < meio && coluna < meio) return "Água";
+        if (linha < meio && coluna >= meio) return "Floresta";
+        if (linha >= meio && coluna < meio) return "Terra";
+        return "Elétrico";
+    }
 
     public void removerPokemon(int linha, int coluna) {
         grade[linha][coluna].setPokemon(null);

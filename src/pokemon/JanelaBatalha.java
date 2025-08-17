@@ -2,6 +2,7 @@ package pokemon;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class JanelaBatalha extends JDialog implements ObservadorJogo {
 
@@ -61,9 +62,35 @@ public class JanelaBatalha extends JDialog implements ObservadorJogo {
 
         btnAtacar.addActionListener(e -> jogo.executarTurnoBatalha());
         btnFugir.addActionListener(e -> jogo.executarFugaBatalha());
+        // CORRIGIDO: ActionListener da troca de Pokémon
         btnTrocar.addActionListener(e -> {
-            // A lógica de troca será chamada aqui, mas por simplicidade, vamos deixar como placeholder
-            JOptionPane.showMessageDialog(this, "Funcionalidade de troca em batalha a ser implementada.");
+            Treinador jogador = jogo.getJogador();
+            List<Pokemon> mochila = jogador.getMochila();
+
+            if (mochila.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Sua mochila está vazia! Você não tem Pokémon para trocar.", "Mochila Vazia", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            
+            String[] opcoes = new String[mochila.size()];
+            for (int i = 0; i < mochila.size(); i++) {
+                opcoes[i] = mochila.get(i).getNome() + " (Nível: " + mochila.get(i).getNivel() + ")";
+            }
+
+            String escolha = (String) JOptionPane.showInputDialog(this, "Escolha um Pokémon da mochila para lutar:", "Trocar Pokémon", JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
+
+            if (escolha != null) {
+                int indiceEscolhido = -1;
+                for (int i = 0; i < opcoes.length; i++) {
+                    if (opcoes[i].equals(escolha)) {
+                        indiceEscolhido = i;
+                        break;
+                    }
+                }
+                if (indiceEscolhido != -1) {
+                    jogo.executarTrocaPokemonBatalha(indiceEscolhido);
+                }
+            }
         });
 
         painelAcoes.add(btnAtacar);

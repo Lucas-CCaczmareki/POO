@@ -27,8 +27,7 @@ public class PokemonAgua extends Pokemon {
      */
     @Override
     public void receberDano(int dano) {
-        int danoReduzido = (int) (dano * 0.8); // Reduz o dano em 20%
-        System.out.println(getNome() + " resistiu ao ataque com sua defesa de água!");
-        super.receberDano(danoReduzido);
-    }
+    // A lógica de redução agora é controlada pelo Jogo, então usamos o método padrão
+    super.receberDano(dano);
+}
 }

@@ -1,18 +1,18 @@
 package pokemon;
 
-// IMPORT ADICIONADO AQUI
 import javax.swing.JOptionPane;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Versão final da classe Jogo com a lógica de batalha completa,
- * incluindo a opção de fugir, implementada de forma segura.
+ * Versão final da classe Jogo, agora utilizando a PokemonFactory para
+ * configurar a partida com todos os Pokémon disponíveis.
  */
 public class Jogo implements Serializable {
 
@@ -31,6 +31,7 @@ public class Jogo implements Serializable {
     private Pokemon pokemonOponenteBatalha;
     private Treinador atacanteOriginal;
     private Treinador defensorOriginal;
+    private Celula celulaBatalha;
 
     public Jogo() {
         this.observadores = new ArrayList<>();
@@ -42,29 +43,37 @@ public class Jogo implements Serializable {
         this.dicasRestantes = 3;
         this.jogoTerminou = false;
         this.modoDebugAtivo = false;
+        
 
         configuracaoInicialAleatoria();
     }
 
+    /**
+     * CORRIGIDO: Agora usa a PokemonFactory para popular o jogo com todos
+     * os Pokémon disponíveis de forma aleatória.
+     */
     private void configuracaoInicialAleatoria() {
         pokemonsSelvagensRestantes = 0;
 
-        // AGORA USA A FACTORY PARA CRIAR OS POKÉMON
-        Pokemon pJogador = PokemonFactory.criarPokemon("Squirtle");
-        Pokemon pComputador = PokemonFactory.criarPokemon("Pikachu");
-        Pokemon[] selvagens = {
-            PokemonFactory.criarPokemon("Bulbasaur"),
-            PokemonFactory.criarPokemon("Sandshrew")
-        };
+        // 1. Pega todos os nomes de Pokémon da Factory e embaralha
+        List<String> nomesDisponiveis = new ArrayList<>(Arrays.asList(PokemonFactory.getPokemonsDisponiveis()));
+        Collections.shuffle(nomesDisponiveis);
 
+        // 2. Associa os dois primeiros da lista embaralhada aos treinadores
+        String nomePkmJogador = nomesDisponiveis.remove(0);
+        Pokemon pJogador = PokemonFactory.criarPokemon(nomePkmJogador);
         jogador.adicionarPokemonInicial(pJogador);
-        computador.adicionarPokemonInicial(pComputador);
-
         posicionarAleatoriamente(pJogador);
-        posicionarAleatoriamente(pComputador);
 
-        for (Pokemon p : selvagens) {
-            posicionarAleatoriamente(p);
+        String nomePkmComputador = nomesDisponiveis.remove(0);
+        Pokemon pComputador = PokemonFactory.criarPokemon(nomePkmComputador);
+        computador.adicionarPokemonInicial(pComputador);
+        posicionarAleatoriamente(pComputador);
+        
+        // 3. O restante da lista são os Pokémon selvagens
+        for (String nomeSelvagem : nomesDisponiveis) {
+            Pokemon pSelvagem = PokemonFactory.criarPokemon(nomeSelvagem);
+            posicionarAleatoriamente(pSelvagem);
             pokemonsSelvagensRestantes++;
         }
     }
@@ -83,20 +92,22 @@ public class Jogo implements Serializable {
     }
 
     public void processarJogadaJogador(int linha, int coluna) {
-        if (!turnoDoJogador || jogoTerminou) return;
+        if (!turnoDoJogador || jogoTerminou || emBatalha) return;
         processarLogicaDaCelula(jogador, linha, coluna);
-        passarTurnoParaComputador();
+        if (!emBatalha) {
+            passarTurnoParaComputador();
+        }
     }
 
     public void processarJogadaComputador(int linha, int coluna) {
         processarLogicaDaCelula(computador, linha, coluna);
-        this.turnoDoJogador = true;
-        notificarObservadores("JOGADA_CONCLUIDA", null);
+        if (!emBatalha) {
+            this.turnoDoJogador = true;
+            notificarObservadores("JOGADA_CONCLUIDA", null);
+        }
     }
     
     private void processarLogicaDaCelula(Treinador treinadorAtivo, int linha, int coluna) {
-        if (emBatalha) return; // Não faz nada se já estiver em batalha
-        
         Celula celula = tabuleiro.getGrade()[linha][coluna];
         if (celula.isRevelada()) return;
         celula.setRevelada(true);
@@ -108,35 +119,53 @@ public class Jogo implements Serializable {
                 iniciarCaptura(treinadorAtivo, pEncontrado, celula);
             } else if (treinadorAtivo.getPokemonPrincipal() != pEncontrado) {
                 Treinador oponente = (treinadorAtivo == jogador) ? computador : jogador;
-                prepararParaBatalha(treinadorAtivo, oponente); // << MUDANÇA AQUI
+                this.celulaBatalha = celula; // Armazena a célula da batalha
+                prepararParaBatalha(treinadorAtivo, oponente);
             }
         }
     }
     
     private void passarTurnoParaComputador() {
-        if (emBatalha) return; // Não passa o turno se uma batalha começou
+        if (emBatalha) return;
         this.turnoDoJogador = false;
         notificarObservadores("JOGADA_CONCLUIDA", null);
         new Thread(computador).start();
     }
-    // --- LÓGICA DE BATALHA COMPLETAMENTE REFEITA ---
+    
     public void prepararParaBatalha(Treinador atacante, Treinador defensor) {
         this.emBatalha = true;
         this.atacanteOriginal = atacante;
         this.defensorOriginal = defensor;
         this.pokemonJogadorBatalha = atacante.getPokemonPrincipal();
         this.pokemonOponenteBatalha = defensor.getPokemonPrincipal();
-        
-        // Notifica a JanelaJogo para abrir a JanelaBatalha
         notificarObservadores("BATALHA_INICIADA", null);
     }
+    
     public void executarTurnoBatalha() {
         if (!emBatalha) return;
         
         StringBuilder logDoTurno = new StringBuilder();
+        int turnoBatalha = this.numeroDoTurno;
+        String tipoRegiao = tabuleiro.getTipoRegiao(celulaBatalha.getLinha(), celulaBatalha.getColuna());
         
-        // Jogador (atacante original) ataca
-        int danoCausado = pokemonJogadorBatalha.calcularDano(numeroDoTurno);
+        // --- Turno do Jogador ---
+        int danoCausado = pokemonJogadorBatalha.calcularDano(turnoBatalha);
+
+        // Lógica da habilidade de Terra
+        if (pokemonJogadorBatalha instanceof PokemonTerra && turnoBatalha % 2 != 0) {
+            logDoTurno.append(pokemonJogadorBatalha.getNome()).append(" usa sua fúria em um turno ímpar!\n");
+        }
+        // Lógica da habilidade de Floresta
+        if (pokemonJogadorBatalha instanceof PokemonFloresta) {
+            logDoTurno.append(pokemonJogadorBatalha.getNome()).append(" se regenerou ao atacar!\n");
+        }
+        
+        // Lógica da habilidade de Água (defensiva)
+        if (pokemonOponenteBatalha instanceof PokemonAgua && !tipoRegiao.equals("Água")) {
+            danoCausado = (int) (danoCausado * 0.8);
+            logDoTurno.append(pokemonOponenteBatalha.getNome()).append(" resistiu ao ataque em ambiente adverso!\n");
+        }
+        
         pokemonOponenteBatalha.receberDano(danoCausado);
         logDoTurno.append(pokemonJogadorBatalha.getNome()).append(" causou ").append(danoCausado).append(" de dano!\n");
 
@@ -145,8 +174,9 @@ public class Jogo implements Serializable {
             return;
         }
 
-        // Oponente (defensor original) ataca
-        int danoRecebido = pokemonOponenteBatalha.calcularDano(numeroDoTurno);
+        // --- Turno do Oponente ---
+        int danoRecebido = pokemonOponenteBatalha.calcularDano(turnoBatalha);
+        // ... (lógica similar para as habilidades do oponente) ...
         pokemonJogadorBatalha.receberDano(danoRecebido);
         logDoTurno.append(pokemonOponenteBatalha.getNome()).append(" causou ").append(danoRecebido).append(" de dano!\n");
 
@@ -155,23 +185,62 @@ public class Jogo implements Serializable {
             return;
         }
 
-        numeroDoTurno++;
+        this.numeroDoTurno++;
         notificarObservadores("BATALHA_ATUALIZADA", logDoTurno.toString());
     }
+    /**
+     * NOVO: Método para processar a troca de Pokémon durante a batalha.
+     * @param indiceNaMochila O índice do Pokémon escolhido na mochila do jogador.
+     */
+    public void executarTrocaPokemonBatalha(int indiceNaMochila) {
+        if (!emBatalha) return;
+
+        StringBuilder logDoTurno = new StringBuilder();
+
+        // 1. Jogador troca de Pokémon
+        atacanteOriginal.trocarPokemonPrincipal(indiceNaMochila);
+        this.pokemonJogadorBatalha = atacanteOriginal.getPokemonPrincipal(); // Atualiza a referência
+        logDoTurno.append(atacanteOriginal.getNome()).append(" trocou para ").append(pokemonJogadorBatalha.getNome()).append("!\n");
+
+        // 2. Oponente ataca, pois a troca gasta o turno
+        int danoRecebido = pokemonOponenteBatalha.calcularDano(numeroDoTurno);
+        pokemonJogadorBatalha.receberDano(danoRecebido);
+        logDoTurno.append(pokemonOponenteBatalha.getNome()).append(" aproveitou a troca e causou ").append(danoRecebido).append(" de dano!\n");
+
+        if (pokemonJogadorBatalha.getEnergia() <= 0) {
+            encerrarBatalha(pokemonOponenteBatalha, defensorOriginal);
+            return;
+        }
+        
+        this.numeroDoTurno++;
+        notificarObservadores("BATALHA_ATUALIZADA", logDoTurno.toString());
+    }
+
     public void executarFugaBatalha() {
         this.emBatalha = false;
         pokemonJogadorBatalha.restaurarEnergia();
         pokemonOponenteBatalha.restaurarEnergia();
-        notificarObservadores("BATALHA_TERMINADA", "Você fugiu da batalha!");
-        passarTurnoParaComputador();
+        notificarObservadores("BATALHA_TERMINADA", atacanteOriginal.getNome() + " fugiu da batalha!");
+        if (atacanteOriginal == jogador) {
+             passarTurnoParaComputador();
+        } else {
+            this.turnoDoJogador = true;
+            notificarObservadores("JOGADA_CONCLUIDA", null);
+        }
     }
+
     private void encerrarBatalha(Pokemon vencedor, Treinador treinadorVencedor) {
         this.emBatalha = false;
         pokemonJogadorBatalha.restaurarEnergia();
         pokemonOponenteBatalha.restaurarEnergia();
         vencedor.aumentarPontosDeExperiencia(50);
         notificarObservadores("BATALHA_TERMINADA", vencedor.getNome() + " venceu a batalha!");
-        passarTurnoParaComputador();
+        if (atacanteOriginal == jogador) {
+             passarTurnoParaComputador();
+        } else {
+            this.turnoDoJogador = true;
+            notificarObservadores("JOGADA_CONCLUIDA", null);
+        }
     }
 
     private void iniciarCaptura(Treinador treinador, Pokemon pokemonSelvagem, Celula celulaOriginal) {
@@ -194,10 +263,10 @@ public class Jogo implements Serializable {
         }
     }
 
-
     private void verificarFimDeJogo() {
         if (pokemonsSelvagensRestantes <= 0) {
             this.jogoTerminou = true;
+            notificarObservadores("JOGADA_CONCLUIDA", null); // Notifica uma última vez para a JanelaJogo detectar o fim.
         }
     }
     
@@ -209,12 +278,8 @@ public class Jogo implements Serializable {
         return false;
     }
 
-    /**
-     * CORRIGIDO: Agora alterna o estado do modo Debug.
-     */
     public void ativarModoDebug() {
-        this.modoDebugAtivo = !this.modoDebugAtivo; // Alterna entre true e false
-        // Apenas notifica a janela, que será responsável pela lógica visual
+        this.modoDebugAtivo = !this.modoDebugAtivo;
         notificarObservadores("JOGADA_CONCLUIDA", null);
     }
     
@@ -222,21 +287,20 @@ public class Jogo implements Serializable {
         if (observadores == null) observadores = new ArrayList<>();
         this.observadores.add(observador);
     }
+    
+    public void removerObservador(ObservadorJogo observador) {
+        if (observadores != null) {
+            this.observadores.remove(observador);
+        }
+    }
 
     public void notificarObservadores(String evento, Object dados) {
         jogador.atualizarPontuacao();
         computador.atualizarPontuacao();
-        for (ObservadorJogo obs : this.observadores) {
+        // Evita ConcurrentModificationException
+        List<ObservadorJogo> observadoresCopia = new ArrayList<>(this.observadores);
+        for (ObservadorJogo obs : observadoresCopia) {
             obs.atualizar(evento, dados);
-        }
-    }
-     /**
-     * ADICIONADO: Método para remover um observador da lista.
-     * @param observador O observador a ser removido.
-     */
-    public void removerObservador(ObservadorJogo observador) {
-        if (observadores != null) {
-            this.observadores.remove(observador);
         }
     }
     
@@ -253,7 +317,6 @@ public class Jogo implements Serializable {
     public boolean isTurnoDoJogador() { return turnoDoJogador; }
     public boolean isJogoTerminou() { return jogoTerminou; }
     public int getDicasRestantes() { return dicasRestantes; }
-    // ADICIONE ESTE GETTER NO FINAL DA CLASSE
     public boolean isModoDebugAtivo() { return modoDebugAtivo; }
     public Pokemon getPokemonJogadorBatalha() { return pokemonJogadorBatalha; }
     public Pokemon getPokemonOponenteBatalha() { return pokemonOponenteBatalha; }
