@@ -196,6 +196,7 @@ public class Jogo implements Serializable {
         }
 
         if (pokemonOponenteBatalha.getEnergia() <= 0) {
+            notificarObservadores("BATALHA_ATUALIZADA", logDoTurno.toString());
             encerrarBatalha(pokemonJogadorBatalha, atacanteOriginal);
             return;
         }
@@ -239,6 +240,7 @@ public class Jogo implements Serializable {
         }
 
         if (pokemonJogadorBatalha.getEnergia() <= 0) {
+            notificarObservadores("BATALHA_ATUALIZADA", logDoTurno.toString());
             encerrarBatalha(pokemonOponenteBatalha, defensorOriginal);
             return;
         }

@@ -154,13 +154,15 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                      JOptionPane.showMessageDialog(this, "Ah, não! O " + pFugitivo.getNome() + " escapou da Pokébola!", "Captura Falhou", JOptionPane.WARNING_MESSAGE);
                     break;
                 case "BATALHA_TERMINADA":
-                    String logBatalha = (String) dados;
-                    JTextArea textArea = new JTextArea(logBatalha);
-                    JScrollPane scrollPane = new JScrollPane(textArea);  
-                    textArea.setLineWrap(true);  
-                    textArea.setWrapStyleWord(true); 
-                    scrollPane.setPreferredSize(new Dimension(400, 250));
-                    JOptionPane.showMessageDialog(this, scrollPane, "Resultado da Batalha", JOptionPane.INFORMATION_MESSAGE);
+                    //não faz nada aqui, a JanelaBatalha já vai gerar uma mensagem
+                    
+                    //String logBatalha = (String) dados;
+                    //JTextArea textArea = new JTextArea(logBatalha);
+                    //JScrollPane scrollPane = new JScrollPane(textArea);  
+                    //textArea.setLineWrap(true);  
+                    //textArea.setWrapStyleWord(true); 
+                    //scrollPane.setPreferredSize(new Dimension(400, 250));
+                    //JOptionPane.showMessageDialog(this, scrollPane, "Resultado da Batalha", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "BATALHA_FUGA":
                     Treinador fujão = (Treinador) dados;
