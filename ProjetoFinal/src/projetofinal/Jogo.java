@@ -28,20 +28,16 @@ public class Jogo implements Serializable {
     private Celula celulaBatalha;
     private transient List<ObservadorJogo> observadores;
 
-    /**
-     * Construtor padrão: cria um jogo com configuração aleatória.
-     */
+    
     public Jogo() {
         inicializarComponentesBasicos();
         configuracaoInicialAleatoria();
     }
 
-    /**
-     * Construtor para modo de setup manual: apenas prepara o jogo, mas não posiciona os Pokémon.
-     */
+    
     public Jogo(boolean setupManual) {
         inicializarComponentesBasicos();
-        // Não chama a configuração aleatória, deixando o tabuleiro limpo.
+        
     }
 
     private void inicializarComponentesBasicos() {
@@ -116,7 +112,7 @@ public class Jogo implements Serializable {
         Celula celula = tabuleiro.getGrade()[linha][coluna];
         if (celula.isRevelada()) return;
         
-        // CORREÇÃO: Usa o novo método para registrar quem revelou
+        
         celula.revelar(treinadorAtivo);
 
         Pokemon pEncontrado = celula.getPokemon();
@@ -126,7 +122,7 @@ public class Jogo implements Serializable {
                 iniciarCaptura(treinadorAtivo, pEncontrado, celula);
             } else if (treinadorAtivo.getPokemonPrincipal() != pEncontrado) {
                 Treinador oponente = (treinadorAtivo == jogador) ? computador : jogador;
-                // NOVO: Notificação específica se for o computador que encontrou seu Pokémon
+                
                 if (treinadorAtivo == computador) {
                     notificarObservadores("COMPUTADOR_DESAFIOU", pEncontrado);
                 }
@@ -296,9 +292,7 @@ public class Jogo implements Serializable {
         }
     }
 
-    /**
-     * MÉTODO COMPLETAMENTE REESCRITO PARA CORRIGIR O BUG DE NOTIFICAÇÃO
-     */
+    
     private void iniciarCaptura(Treinador treinador, Pokemon pokemonSelvagem, Celula celulaOriginal) {
         // Lançamento da moeda (50% de chance)
         if (new Random().nextBoolean()) {
@@ -307,7 +301,6 @@ public class Jogo implements Serializable {
             celulaOriginal.setPokemon(null);
             pokemonsSelvagensRestantes--;
             
-            // Envia a notificação correta dependendo de quem capturou
             if (treinador == computador) {
                 notificarObservadores("COMPUTADOR_CAPTUROU", pokemonSelvagem);
             } else {
@@ -317,13 +310,13 @@ public class Jogo implements Serializable {
             verificarFimDeJogo();
         } else {
             // --- CASO 2: Captura falhou ---
-            celulaOriginal.setPokemon(null); // Tira o Pokémon da célula para tentar movê-lo
+            celulaOriginal.setPokemon(null); 
             
             // Tenta encontrar uma nova célula para a fuga
             Celula novaCelula = tabuleiro.encontrarCelulaParaFuga(pokemonSelvagem, celulaOriginal.getLinha(), celulaOriginal.getColuna());
             
             if (novaCelula != null) {
-                // --- SUB-CASO 2.1: Fuga bem-sucedida ---
+                
                 novaCelula.setPokemon(pokemonSelvagem);
                 
                 // Envia a notificação correta dependendo de quem tentou a captura
@@ -333,13 +326,11 @@ public class Jogo implements Serializable {
                     notificarObservadores("CAPTURA_FALHOU", pokemonSelvagem);
                 }
             } else {
-                // --- SUB-CASO 2.2: Pokémon encurralado ---
-                // Se não há para onde fugir, o Pokémon volta para a célula original...
+                
                 celulaOriginal.setPokemon(pokemonSelvagem);
-                // ...e a célula é marcada como NÃO REVELADA para que possa ser clicada de novo.
+                
                 celulaOriginal.setRevelada(false);
                 
-                // Envia a notificação de que o Pokémon está encurralado
                 notificarObservadores("FUGA_SEM_SAIDA", pokemonSelvagem);
             }
         }

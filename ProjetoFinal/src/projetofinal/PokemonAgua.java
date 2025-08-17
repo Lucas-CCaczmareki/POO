@@ -13,7 +13,5 @@ public class PokemonAgua extends Pokemon {
         return getForca() + new Random().nextInt(getNivel() * 5);
     }
 
-    // O método 'receberDano' sobrescrito foi removido.
-    // Agora ele usa o método padrão da classe Pokemon,
-    // pois a lógica de redução será controlada pelo Jogo.
+    
 }

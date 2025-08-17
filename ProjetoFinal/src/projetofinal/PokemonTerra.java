@@ -9,7 +9,6 @@ public class PokemonTerra extends Pokemon {
     }
 
     /**
-     * [cite_start]HABILIDADE ESPECIAL: Ataque com força dobrada em turno ímpar. [cite: 89]
      * @param numeroDoTurno O número do turno atual, vindo da classe Jogo.
      */
     @Override

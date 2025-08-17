@@ -3,11 +3,7 @@ package projetofinal;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-/**
- * ATIVIDADE 2: Tela Principal do Jogo.
- * Esta é a versão final e corrigida da interface principal do jogo,
- * com todas as funcionalidades implementadas e conectadas à classe Jogo.
- */
+
 public class JanelaJogo extends JFrame implements ObservadorJogo {
 
     private final Jogo jogo;
@@ -53,11 +49,9 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                 final int linha = i;
                 final int coluna = j;
                 JButton botaoCelula = new JButton();
-                botaoCelula.setOpaque(true); // Força o botão a pintar seu fundo
+                botaoCelula.setOpaque(true); 
                 botaoCelula.setContentAreaFilled(true);
-                // Desliga a borda padrão do sistema, que costuma causar o problema
                 botaoCelula.setBorderPainted(false);
-                // --- FIM DA CORREÇÃO DEFINITIVA DE COR ---
                 botaoCelula.setMargin(new Insets(0, 0, 0, 0));
                 botaoCelula.setFont(new Font("Arial", Font.BOLD, 20));
                 botaoCelula.addActionListener(e -> jogo.processarJogadaJogador(linha, coluna));
@@ -68,7 +62,7 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
         }
         add(painelGrid, BorderLayout.CENTER);
 
-        // --- Painel Inferior (Botões de Opção) ---
+    
         JPanel painelOpcoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
         btnDica = new JButton("Dica (" + jogo.getDicasRestantes() + ")");
         JButton btnDebug = new JButton("Debug");
@@ -139,7 +133,7 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
             atualizarVisualizacaoGeral();
             Pokemon p;
 
-            // NOVO CASE PARA INICIAR A JANELA DE BATALHA
+            
             if ("BATALHA_INICIADA".equals(evento)) {
                 new JanelaBatalha(this, jogo).setVisible(true);
             }
@@ -154,15 +148,6 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                      JOptionPane.showMessageDialog(this, "Ah, não! O " + pFugitivo.getNome() + " escapou da Pokébola!", "Captura Falhou", JOptionPane.WARNING_MESSAGE);
                     break;
                 case "BATALHA_TERMINADA":
-                    //não faz nada aqui, a JanelaBatalha já vai gerar uma mensagem
-                    
-                    //String logBatalha = (String) dados;
-                    //JTextArea textArea = new JTextArea(logBatalha);
-                    //JScrollPane scrollPane = new JScrollPane(textArea);  
-                    //textArea.setLineWrap(true);  
-                    //textArea.setWrapStyleWord(true); 
-                    //scrollPane.setPreferredSize(new Dimension(400, 250));
-                    //JOptionPane.showMessageDialog(this, scrollPane, "Resultado da Batalha", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "BATALHA_FUGA":
                     Treinador fujão = (Treinador) dados;
@@ -174,7 +159,6 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                     "O " + pEncurralado.getNome() + " tentou fugir, mas não encontrou para onde ir!",
                     "Pokémon Encurralado",
                     JOptionPane.INFORMATION_MESSAGE);
-                // --- NOVAS MENSAGENS PARA O COMPUTADOR ---
                 case "COMPUTADOR_CAPTUROU":
                     p = (Pokemon) dados;
                     JOptionPane.showMessageDialog(this, "O Computador capturou um " + p.getNome() + "!", "Ação do Oponente", JOptionPane.INFORMATION_MESSAGE);
@@ -211,43 +195,43 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                 JButton botao = botoesGrid[i][j];
                 Celula celula = jogo.getTabuleiro().getGrade()[i][j];
                 
-                // Habilita o botão apenas se a célula não foi revelada e for a vez do jogador
+                
                 botao.setEnabled(!celula.isRevelada() && jogo.isTurnoDoJogador());
 
-                // Se a célula deve ser mostrada (ou por jogada ou pelo debug)
+                
                 if (celula.isRevelada() || debug) {
                     if (celula.estaVazia()) {
                         botao.setIcon(null);
                         botao.setText("");
-                        // --- LÓGICA DE COR PARA CÉLULAS VAZIAS ---
+                        
                         Treinador quemRevelou = celula.getReveladaPor();
                         if (quemRevelou == jogo.getJogador()) {
-                            botao.setBackground(new Color(173, 216, 230)); // Azul para o jogador
+                            botao.setBackground(new Color(173, 216, 230)); 
                         } else if (quemRevelou == jogo.getComputador()) {
-                            botao.setBackground(new Color(255, 182, 193)); // Vermelho para o computador
+                            botao.setBackground(new Color(255, 182, 193)); 
                         } else {
-                            botao.setBackground(Color.DARK_GRAY); // Cor padrão para vazias (ex: debug)
+                            botao.setBackground(Color.DARK_GRAY); 
                         }
                     } else {
                         Pokemon p = celula.getPokemon();
                         ImageIcon icon = PokemonImageManager.getPokemonImage(p.getNome());
                         botao.setIcon(icon);
                         botao.setDisabledIcon(icon);
-                        botao.setText(""); // CORRIGIDO: Garante que não há texto "?" com o ícone
+                        botao.setText(""); 
 
-                        // LÓGICA DE COR PARA O MODO DEBUG
+                        
                         if (debug) {
                             if (jogo.getJogador().getPokemonPrincipal() == p || jogo.getJogador().getMochila().contains(p)) {
                                 botao.setBackground(new Color(102, 178, 255)); // Azul para jogador
                             } else if (jogo.getComputador().getPokemonPrincipal() == p || jogo.getComputador().getMochila().contains(p)) {
                                 botao.setBackground(new Color(255, 102, 102)); // Vermelho para computador
                             } else {
-                                // Mantém a cor da região para selvagens
+                                
                                 colorirBotaoRegiao(botao, i, j);
                             }
                         }
                     }
-                } else { // Se a célula está oculta e o debug está desligado
+                } else { 
                     botao.setIcon(null);
                     botao.setText("?");
                     colorirBotaoRegiao(botao, i, j);

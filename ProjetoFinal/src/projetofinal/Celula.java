@@ -8,7 +8,7 @@ public class Celula implements Serializable {
     private final int coluna;
     private Pokemon pokemon;
     private boolean revelada;
-    private Treinador reveladaPor; // NOVO: Guarda quem revelou a célula
+    private Treinador reveladaPor; 
 
     public Celula(int linha, int coluna) {
         this.linha = linha;
@@ -19,7 +19,6 @@ public class Celula implements Serializable {
     }
 
     /**
-     * NOVO: Método para revelar a célula, registrando quem fez a ação.
      * @param treinador O treinador que está revelando a célula.
      */
     public void revelar(Treinador treinador) {
@@ -35,8 +34,8 @@ public class Celula implements Serializable {
     public Pokemon getPokemon() { return pokemon; }
     public void setPokemon(Pokemon pokemon) { this.pokemon = pokemon; }
     public boolean isRevelada() { return revelada; }
-    public void setRevelada(boolean revelada) { this.revelada = revelada; } // Mantido para o modo debug
+    public void setRevelada(boolean revelada) { this.revelada = revelada; } 
     public int getLinha() { return linha; }
     public int getColuna() { return coluna; }
-    public Treinador getReveladaPor() { return reveladaPor; } // NOVO
+    public Treinador getReveladaPor() { return reveladaPor; } 
 }

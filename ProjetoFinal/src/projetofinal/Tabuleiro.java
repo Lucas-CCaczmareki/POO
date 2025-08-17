@@ -5,11 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Gerencia a grade N x N do jogo. Esta versão foi corrigida e completada
- * para incluir todas as validações e métodos de ajuda necessários para
- * as regras do jogo.
- */
+
 public class Tabuleiro implements Serializable {
 
     private final Celula[][] grade;
@@ -45,7 +41,7 @@ public class Tabuleiro implements Serializable {
         String tipo = pokemon.getTipo();
         String erroMsg = "A posição [" + linha + "][" + coluna + "] não é válida para um Pokémon do tipo " + tipo + ".";
         
-        // CORRIGIDO: Nomes dos tipos com acentuação correta
+        
         if (linha < meio && coluna < meio) {
             if (!tipo.equals("Água")) throw new RegiaoInvalidaException(erroMsg);
         } else if (linha < meio && coluna >= meio) {
@@ -57,10 +53,7 @@ public class Tabuleiro implements Serializable {
         }
     }
 
-    /**
-     * ADICIONADO: Lógica para a Dica (ATIVIDADE 2).
-     * Verifica se existe algum Pokémon na linha ou coluna informada.
-     */
+    
     public boolean verificarDica(int linha, int coluna) {
         for (int j = 0; j < tamanhoN; j++) {
             if (!grade[linha][j].estaVazia()) return true;
@@ -71,9 +64,7 @@ public class Tabuleiro implements Serializable {
         return false;
     }
 
-    /**
-     * CORRIGIDO: Agora só procura por células que NÃO FORAM REVELADAS.
-     */
+    
     public Celula encontrarCelulaParaFuga(Pokemon pokemon, int linha, int coluna) {
         List<Celula> vizinhos = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
@@ -91,17 +82,17 @@ public class Tabuleiro implements Serializable {
         Collections.shuffle(vizinhos);
         
         for (Celula vizinho : vizinhos) {
-            // A CONDIÇÃO AGORA INCLUI A VERIFICAÇÃO SE A CÉLULA NÃO FOI REVELADA
+            
             if (vizinho.estaVazia() && !vizinho.isRevelada()) {
                 try {
                     validarRegiao(pokemon, vizinho.getLinha(), vizinho.getColuna());
                     return vizinho;
                 } catch (RegiaoInvalidaException e) {
-                    // Continua procurando
+                   
                 }
             }
         }
-        return null; // Não encontrou nenhuma célula válida para fuga
+        return null; 
     }
     public String getTipoRegiao(int linha, int coluna) {
         int meio = tamanhoN / 2;
@@ -126,7 +117,7 @@ public class Tabuleiro implements Serializable {
         return false;
     }
 
-    // --- Getters ---
+    
     public Celula[][] getGrade() { return grade; }
     public int getTamanhoN() { return tamanhoN; }
 }

@@ -4,11 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/**
- * ATIVIDADE 3: Janela de Fim de Jogo.
- * Exibe o vencedor da partida, o placar final e as opções para
- * iniciar um novo jogo ou fechar a aplicação.
- */
+
 public class JanelaFimDeJogo extends JFrame {
 
     /**

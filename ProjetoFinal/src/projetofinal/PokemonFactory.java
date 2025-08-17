@@ -1,15 +1,9 @@
 package projetofinal;
 
-/**
- * [DESAFIO: 1 PONTO EXTRA!] Implementa o padrão de projeto Factory Method.
- * Esta classe centraliza a criação de todos os objetos Pokémon do jogo,
- * facilitando a manutenção e a adição de novos Pokémon no futuro.
- */
+
 public class PokemonFactory {
     
     /**
-     * Cria e retorna uma instância de um Pokémon específico com base no nome.
-     * Define atributos padrão (energia, força, nível) para cada um.
      * @param nome O nome do Pokémon a ser criado.
      * @return Uma instância da subclasse de Pokémon correspondente.
      */
@@ -30,7 +24,6 @@ public class PokemonFactory {
             case "magnemite":
                 return new PokemonEletrico("Magnemite", 80, 22, 4);
             case "paras":
-                // CORRIGIDO: Paras é do tipo Planta/Inseto, representado por Floresta.
                 return new PokemonFloresta("Paras", 90, 18, 4);
             default:
                 throw new IllegalArgumentException("Pokémon não encontrado na Factory: " + nome);
@@ -38,7 +31,6 @@ public class PokemonFactory {
     }
     
     /**
-     * Retorna uma lista com os nomes de todos os Pokémon que a factory pode criar.
      * @return um array de Strings com os nomes.
      */
     public static String[] getPokemonsDisponiveis() {

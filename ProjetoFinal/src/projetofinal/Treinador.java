@@ -4,16 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Representa um Treinador no jogo (jogador ou computador).
- * Esta versão foi corrigida para gerenciar corretamente o Pokémon principal
- * e a mochila, de acordo com as regras do documento de trabalho.
- */
+
 public class Treinador implements Serializable {
     private String nome;
-    private List<Pokemon> mochila; // Armazena todos os Pokémon que não estão em batalha
+    private List<Pokemon> mochila; 
     private int pontuacao;
-    private Pokemon pokemonPrincipal; // O único Pokémon ativo no "time"
+    private Pokemon pokemonPrincipal; 
 
     public Treinador(String nome) {
         this.nome = nome;
@@ -35,7 +31,6 @@ public class Treinador implements Serializable {
     }
 
     /**
-     * CORRIGIDO: Captura um Pokémon e o coloca diretamente na mochila.
      * @param pokemon O Pokémon capturado.
      */
     public void capturarPokemon(Pokemon pokemon) {
@@ -46,38 +41,34 @@ public class Treinador implements Serializable {
     }
 
     /**
-     * CORRIGIDO: Troca o Pokémon principal por um da mochila.
-     * O antigo Pokémon principal é movido para a mochila.
      * @param indiceNaMochila O índice do Pokémon na mochila que se tornará o principal.
      */
     public void trocarPokemonPrincipal(int indiceNaMochila) {
         if (indiceNaMochila >= 0 && indiceNaMochila < mochila.size()) {
             Pokemon novoPrincipal = mochila.get(indiceNaMochila);
 
-            // Tira o novo principal da mochila
+            
             mochila.remove(indiceNaMochila);
             
-            // Coloca o antigo principal na mochila (se existir)
+            
             if (this.pokemonPrincipal != null) {
                 mochila.add(this.pokemonPrincipal);
             }
             
-            // Define o novo Pokémon como principal
+            
             this.pokemonPrincipal = novoPrincipal;
             System.out.println(nome + " trocou para " + pokemonPrincipal.getNome());
         }
     }
 
-    /**
-     * CORRIGIDO: Calcula a pontuação com base em TODOS os Pokémon do treinador.
-     */
+    
     public void atualizarPontuacao() {
         pontuacao = 0;
-        // Adiciona a pontuação do Pokémon principal
+        
         if (pokemonPrincipal != null) {
             pontuacao += pokemonPrincipal.getPontosDeExperiencia() + (pokemonPrincipal.getNivel() * 10);
         }
-        // Adiciona a pontuação dos Pokémon na mochila
+        
         for (Pokemon p : mochila) {
             pontuacao += p.getPontosDeExperiencia() + (p.getNivel() * 10);
         }
@@ -91,7 +82,7 @@ public class Treinador implements Serializable {
         return pokemonPrincipal != null && pokemonPrincipal.getEnergia() > 0;
     }
 
-    // --- Getters ---
+    
     public String getNome() { return nome; }
     public List<Pokemon> getMochila() { return mochila; }
     public int getPontuacao() { return pontuacao; }

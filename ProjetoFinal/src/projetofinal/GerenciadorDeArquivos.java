@@ -4,11 +4,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 
-/**
- * Gerencia a leitura e escrita de arquivos para persistência de dados.
- * Esta versão foi corrigida para integrar a interface gráfica (JFileChooser)
- * e fornecer feedback ao usuário (JOptionPane).
- */
+
 public class GerenciadorDeArquivos {
 
     /**
@@ -60,7 +56,7 @@ public class GerenciadorDeArquivos {
                 return null;
             }
         }
-        return null; // Usuário cancelou
+        return null; 
     }
 
     /**

@@ -2,15 +2,10 @@ package projetofinal;
 
 import java.util.Random;
 
-/**
- * Representa o treinador controlado pelo computador.
- * Herda de Treinador e implementa Runnable para que sua jogada seja
- * aleatória e executada em uma thread separada para cada turno.
- */
+
 public class Computador extends Treinador implements Runnable{
 
-    // A referência ao Jogo é 'transient' para não ser salva no arquivo.
-    // Ela será reinjetada quando o jogo for carregado.
+    
     private transient Jogo jogo;
 
     public Computador(String nome, Jogo jogo) {
@@ -18,18 +13,13 @@ public class Computador extends Treinador implements Runnable{
         this.jogo = jogo;
     }
 
-    /**
-     * INFORMAÇÕES IMPORTANTES: Deve fazer uso de Threads para Jogada do Computador.
-     * Este método é o ponto de entrada da thread. Ele executa UMA VEZ por jogada.
-     */
+    
     @Override
     public void run() {
         try {
-            // Adiciona um delay para simular o "tempo de pensar", como solicitado.
+            
             System.out.println(getNome() + " está pensando...");
-            Thread.sleep(2000); // Pausa a execução por 2 segundos
-
-            // Lógica para escolher uma jogada aleatória em uma célula não revelada
+            Thread.sleep(2000); 
             Random random = new Random();
             Tabuleiro tabuleiro = jogo.getTabuleiro();
             int tamanho = tabuleiro.getTamanhoN();
@@ -42,8 +32,7 @@ public class Computador extends Treinador implements Runnable{
 
             System.out.println(getNome() + " escolheu jogar na posição [" + linha + "][" + coluna + "].");
             
-            // Chama o método específico no Jogo para processar a jogada do computador.
-            // Isso garante que a lógica de turnos não entre em loop.
+            
             jogo.processarJogadaComputador(linha, coluna);
 
         } catch (InterruptedException e) {
@@ -52,9 +41,6 @@ public class Computador extends Treinador implements Runnable{
         }
     }
     
-    /**
-     * Método usado para reinjetar a referência ao jogo ao carregar uma partida salva.
-     */
     public void setJogo(Jogo jogo) {
         this.jogo = jogo;
     }

@@ -13,7 +13,7 @@ public class JanelaBatalha extends JDialog implements ObservadorJogo {
     private JButton btnAtacar, btnTrocar, btnFugir;
 
     public JanelaBatalha(JFrame parent, Jogo jogo) {
-        super(parent, "Batalha Pokémon!", true); // 'true' torna a janela modal
+        super(parent, "Batalha Pokémon!", true); 
         this.jogo = jogo;
         this.jogo.adicionarObservador(this);
 
@@ -22,12 +22,12 @@ public class JanelaBatalha extends JDialog implements ObservadorJogo {
     }
 
     private void configurarJanela() {
-        setSize(600, 500); // Janela maior
+        setSize(600, 500); 
         setLocationRelativeTo(getOwner());
         setLayout(new BorderLayout(10, 10));
-        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede fechar no 'X'
+        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); 
 
-        // Painel dos Pokémon (Topo)
+        
         JPanel painelPokemons = new JPanel(new GridLayout(1, 2, 20, 0));
         painelPokemons.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
@@ -49,12 +49,12 @@ public class JanelaBatalha extends JDialog implements ObservadorJogo {
         painelPokemons.add(pnlOponente);
         add(painelPokemons, BorderLayout.NORTH);
 
-        // Log da Batalha (Centro)
+        
         txtLog = new JTextArea();
         txtLog.setEditable(false);
         add(new JScrollPane(txtLog), BorderLayout.CENTER);
 
-        // Painel de Ações (Baixo)
+        
         JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         btnAtacar = new JButton("Atacar");
         btnTrocar = new JButton("Trocar Pokémon");
@@ -62,7 +62,7 @@ public class JanelaBatalha extends JDialog implements ObservadorJogo {
 
         btnAtacar.addActionListener(e -> jogo.executarTurnoBatalha());
         btnFugir.addActionListener(e -> jogo.executarFugaBatalha());
-        // CORRIGIDO: ActionListener da troca de Pokémon
+        
         btnTrocar.addActionListener(e -> {
             Treinador jogador = jogo.getJogador();
             List<Pokemon> mochila = jogador.getMochila();

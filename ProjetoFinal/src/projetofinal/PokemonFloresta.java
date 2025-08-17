@@ -8,16 +8,13 @@ public class PokemonFloresta extends Pokemon {
         super(nome, "Floresta", energia, forca, nivel);
     }
 
-    /**
-     * [cite_start]HABILIDADE ESPECIAL: Regeneração (cura parte do dano ao atacar). [cite: 88]
-     */
+    
     @Override
     public int calcularDano(int numeroDoTurno) {
-        // Lógica de cura que acontece durante o ataque
-        int cura = (int) (getForca() * 0.2); // Cura 20% do valor da sua força
-        this.curar(cura); // Usa o método de cura da classe pai
+        
+        int cura = (int) (getForca() * 0.2); 
+        this.curar(cura); //
 
-        // Calcula e retorna o dano do ataque
         return getForca() + new Random().nextInt(getNivel() * 5);
     }
 }

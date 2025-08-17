@@ -20,7 +20,7 @@ public class JanelaPosicionamento extends JFrame {
     private final int TAMANHO_GRID = 8;
 
     public JanelaPosicionamento() {
-        this.jogo = new Jogo(true); // Cria uma nova instância de jogo para este modo
+        this.jogo = new Jogo(true); 
         configurarJanela();
         criarComponentes();
     }
@@ -36,7 +36,7 @@ public class JanelaPosicionamento extends JFrame {
         setLayout(new BorderLayout(10, 10));
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        // Painel Superior
+        
         JPanel painelSuperior = new JPanel(new BorderLayout());
         labelInstrucao = new JLabel("1. Selecione seu Pokémon inicial e posicione-o na região correta.", SwingConstants.CENTER);
         labelInstrucao.setFont(new Font("Arial", Font.BOLD, 14));
@@ -49,7 +49,7 @@ public class JanelaPosicionamento extends JFrame {
         painelSuperior.add(painelSelecao, BorderLayout.CENTER);
         add(painelSuperior, BorderLayout.NORTH);
 
-        // Tabuleiro
+        
         JPanel painelTabuleiro = new JPanel(new GridLayout(TAMANHO_GRID, TAMANHO_GRID, 5, 5));
         botoesGrid = new JButton[TAMANHO_GRID][TAMANHO_GRID];
         for (int i = 0; i < TAMANHO_GRID; i++) {
@@ -57,10 +57,9 @@ public class JanelaPosicionamento extends JFrame {
                 final int linha = i;
                 final int coluna = j;
                 botoesGrid[i][j] = new JButton();
-                botoesGrid[i][j].setOpaque(true); // Força o botão a pintar seu fundo
+                botoesGrid[i][j].setOpaque(true); 
                 botoesGrid[i][j].setContentAreaFilled(true);
                 botoesGrid[i][j].setBorderPainted(false);
-                // --- FIM DA CORREÇÃO DEFINITIVA DE COR ---
                 botoesGrid[i][j].setMargin(new Insets(0, 0, 0, 0));
                 colorirBotaoRegiao(botoesGrid[i][j], linha, coluna);
                 botoesGrid[i][j].addActionListener(e -> clicarCelula(linha, coluna));
@@ -69,11 +68,11 @@ public class JanelaPosicionamento extends JFrame {
         }
         add(painelTabuleiro, BorderLayout.CENTER);
         
-        // Painel Inferior
+        
         JPanel painelInferior = new JPanel();
         btnJogar = new JButton("Jogar");
         btnJogar.setFont(new Font("Arial", Font.BOLD, 16));
-        btnJogar.setEnabled(false); // Começa desabilitado
+        btnJogar.setEnabled(false); 
         btnJogar.addActionListener(e -> iniciarJogo());
         painelInferior.add(btnJogar);
         add(painelInferior, BorderLayout.SOUTH);
@@ -127,7 +126,7 @@ public class JanelaPosicionamento extends JFrame {
         for (String nomeSelvagem : nomesRestantes) {
             Pokemon pSelvagem = PokemonFactory.criarPokemon(nomeSelvagem);
             posicionarAleatoriamente(pSelvagem);
-            jogo.incrementarPokemonsSelvagens(); // Informa ao jogo que um selvagem foi adicionado
+            jogo.incrementarPokemonsSelvagens(); 
         }
     }
 
