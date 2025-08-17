@@ -3,6 +3,12 @@ package projetofinal;
 import java.util.Random;
 
 public class PokemonEletrico extends Pokemon {
+    
+    //Construtor (temp)
+    public PokemonEletrico(String nome) {
+        setNome(nome);
+    }
+
     @Override
     public int calcularDano(Pokemon oponente, int turnoAtual) {
         //Fórmula: dano = (força + random.nextInt(nivel + 1)) * fatorTipo + bônusHabilidade

@@ -5,6 +5,11 @@ import java.util.Random;
 public class PokemonAgua extends Pokemon {
     //Recebe todos atributos que um pokemon tem
 
+    //Construtor (temp)
+    public PokemonAgua(String nome) {
+        setNome(nome);
+    }
+
     //É aqui que a habilidade dos pokemon água aparecem
     @Override
     public void receberDano(int dano, String ambiente) {
