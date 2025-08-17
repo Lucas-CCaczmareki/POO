@@ -7,7 +7,7 @@ public class PokemonAgua extends Pokemon {
 
     //Construtor (temp)
     public PokemonAgua(String nome) {
-        setNome(nome);
+        super(nome, "Agua", 100, 15, 5);
     }
 
     //É aqui que a habilidade dos pokemon água aparecem

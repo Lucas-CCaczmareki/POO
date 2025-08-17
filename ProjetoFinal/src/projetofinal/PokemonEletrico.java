@@ -6,7 +6,9 @@ public class PokemonEletrico extends Pokemon {
     
     //Construtor (temp)
     public PokemonEletrico(String nome) {
-        setNome(nome);
+        // Chama o construtor da classe pai (Pokemon) com os atributos base
+        // super(nome, tipo, energia, forca, nivel);
+        super(nome, "Eletrico", 100, 15, 5); // Ex: Pikachu Lvl 5 com 100 HP e 15 de Força
     }
 
     @Override

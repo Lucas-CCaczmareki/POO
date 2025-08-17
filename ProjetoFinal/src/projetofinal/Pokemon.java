@@ -4,6 +4,7 @@ public abstract class Pokemon implements IAtaque {
     //Atributos
     private String nome;
     private int energia;
+    private int energiaMaxima;
     private int forca;
     private int experience = 0;
     private int nivel;
@@ -11,16 +12,31 @@ public abstract class Pokemon implements IAtaque {
 
     //Atributos de controle
     private boolean selvagem;
+    private Treinador dono;
     private String status = "Normal";
     private int turnosSobEfeito = 0;
 
     //Construtor
-    //Vou deixar sem nada por enquanto!
+    public Pokemon(String nome, String tipo, int energia, int forca, int nivel) {
+        this.nome = nome;
+        this.tipo = tipo;
+        this.energia = energia;
+        this.energiaMaxima = energia; // A energia máxima é a energia inicial
+        this.forca = forca;
+        this.nivel = nivel;
+        this.dono = null; // Começa sem dono
+        this.selvagem = true; // Todo Pokémon começa como selvagem por padrão
+    }
 
     //Métodos
     public void receberDano(int dano, String ambiente) {
         //Por padrão, o pokémon só toma dano. 
         this.setEnergia(this.getEnergia() - dano);
+    }
+
+    public void restaurarEnergia() {
+        this.energia = this.energiaMaxima;
+        //System.out.println(this.nome + " teve sua energia restaurada!");
     }
 
     public void passarTurnosSobEfeito() {
@@ -69,6 +85,9 @@ public abstract class Pokemon implements IAtaque {
     public int getTurnosSobEfeito() {
         return turnosSobEfeito;
     }
+    public Treinador getDono() {
+        return dono;
+    }
 
     //Setters
     public void setEnergia(int energia) {
@@ -100,5 +119,8 @@ public abstract class Pokemon implements IAtaque {
     }
     public void setTurnosSobEfeito(int turnosSobEfeito) {
         this.turnosSobEfeito = turnosSobEfeito;
+    }
+    public void setDono(Treinador dono) {
+        this.dono = dono;
     }
 }

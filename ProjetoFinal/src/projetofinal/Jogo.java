@@ -16,7 +16,7 @@ public class Jogo {
     private Pokemon pokemonOponenteBatalha;
 
     private int linhaBatalha;
-    private int colunaBatalha
+    private int colunaBatalha;
 
 
     public Jogo(JanelaPrincipal view) {
@@ -43,6 +43,10 @@ public class Jogo {
         //Threads
         Thread threadDoComputador = new Thread(this.computador);
         threadDoComputador.start(); //chama o run dentro da thread do computador em paralelo
+
+        view.getPainelTabuleiro().montarTabuleiro();
+
+        view.mostrarPainel("TABULEIRO");
     }
 
     /*
@@ -63,8 +67,13 @@ public class Jogo {
         Pokemon p4 = new PokemonEletrico("Pikachu");
 
         // Associa alguns Pokémon ao jogador e ao computador
-        jogador.addPkm(p1);
-        computador.addPkm(p4);
+        jogador.addPkm(p4);
+        p4.setDono(jogador);
+        p4.setSelvagem(false);
+
+        computador.addPkm(p1);
+        p1.setDono(computador);
+        p1.setSelvagem(false);
 
         // Posiciona os Pokémon no tabuleiro, respeitando as regiões
         // Região Água: linhas 0 a 3, colunas 0 a 3 [cite: 61]
@@ -176,8 +185,11 @@ public class Jogo {
         }
 
         // Oponente Ataca
-        int danoRecebido = pokemonOponenteBatalha.calcularDano(pokemonOponenteBatalha, contadorTurnos);
+        int danoRecebido = pokemonOponenteBatalha.calcularDano(pokemonJogadorBatalha, contadorTurnos);
         pokemonJogadorBatalha.receberDano(danoRecebido, tabuleiro.getRegiaoDaCelula(linhaBatalha, colunaBatalha));
+
+        //atualiza o log
+        view.getPainelBatalha().atualizarLog(pokemonOponenteBatalha.getNome() + " ataca e causa " + danoRecebido + " de dano!");
 
         //Verifica se o meu pokemon foi derrotado pelo oponenete
         if(pokemonJogadorBatalha.getEnergia() <= 0) {
@@ -308,6 +320,44 @@ public class Jogo {
 
 
         System.out.println("-> Computador clicou em [" + linha + "][" + coluna + "]");
+        
+        Celula celulaEscolhida = tabuleiro.getCelula(linha, coluna);
+        Pokemon pkmNaCelula = celulaEscolhida.getPkm();
+
+        if(pkmNaCelula != null) {
+
+            if(pkmNaCelula.isSelvagem()) {
+                System.out.println("Computador encontrou um " + pkmNaCelula.getNome() + " selvagem!");
+                if (random.nextBoolean()) {
+                    System.out.println("Computador capturou " + pkmNaCelula.getNome() + "!");
+                    computador.addPkm(pkmNaCelula);
+                    pkmNaCelula.setSelvagem(false);
+                    pkmNaCelula.setDono(computador);
+                } else {
+                    System.out.println("O Pokémon selvagem escapou do Computador!");
+                    executarFuga(pkmNaCelula, linha, coluna);
+                }
+
+            // Se o pokemon é do jogador 
+            } else if (pkmNaCelula.getDono() == this.jogador) {
+                System.out.println("Computador desafiou seu " + pkmNaCelula.getNome() + " para uma batalha!");
+                Pokemon pokemonDoComputador = computador.getMochila().get(0);
+                iniciarBatalha(jogador.getMochila().get(0), pokemonDoComputador);
+        
+            // Se o Pokémon é do próprio computador...
+            } else {
+                System.out.println("Computador escolheu uma célula com um de seus próprios Pokémon.");
+            }
+
+
+        } else {
+            System.out.println("Computador escolheu uma célula vazia");
+        }
+
+        //Independente do resultado (a menos que iniciou uma batalha), passa a vez
+        if (!emBatalha) {
+            this.turnoDoJogador = true;
+        }
 
         //*********************************** !!!!!!!! *************************************
         //Aqui entraria a lógica de batalha/captura do computador que eu vou ignorar por enquanto

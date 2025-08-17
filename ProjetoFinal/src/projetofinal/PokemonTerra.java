@@ -6,7 +6,7 @@ public class PokemonTerra extends Pokemon {
 
     //Construtor (temp)
     public PokemonTerra(String nome) {
-        setNome(nome);
+        super(nome, "Terra", 100, 15, 5);
     }
 
     @Override

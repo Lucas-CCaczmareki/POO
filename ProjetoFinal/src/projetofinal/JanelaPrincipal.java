@@ -22,6 +22,10 @@ public class JanelaPrincipal extends JFrame {
         setLocationRelativeTo(null);
 
         //Config do card layout
+        cardLayout = new CardLayout();
+        painelPrincipal = new JPanel(cardLayout);
+
+
         //Passamos this pro jogo se comunicar com essa janela
         jogo = new Jogo(this);
 
@@ -45,5 +49,10 @@ public class JanelaPrincipal extends JFrame {
 
     public PainelBatalha getPainelBatalha() {
         return painelBatalha;
+    }
+
+    //Getters e setters
+    public PainelTabuleiro getPainelTabuleiro() {
+        return painelTabuleiro;
     }
 }
