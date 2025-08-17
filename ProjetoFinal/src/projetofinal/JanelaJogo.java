@@ -3,8 +3,6 @@ package projetofinal;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-//import java.util.List;
-
 /**
  * ATIVIDADE 2: Tela Principal do Jogo.
  * Esta é a versão final e corrigida da interface principal do jogo,
@@ -55,6 +53,11 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                 final int linha = i;
                 final int coluna = j;
                 JButton botaoCelula = new JButton();
+                botaoCelula.setOpaque(true); // Força o botão a pintar seu fundo
+                botaoCelula.setContentAreaFilled(true);
+                // Desliga a borda padrão do sistema, que costuma causar o problema
+                botaoCelula.setBorderPainted(false);
+                // --- FIM DA CORREÇÃO DEFINITIVA DE COR ---
                 botaoCelula.setMargin(new Insets(0, 0, 0, 0));
                 botaoCelula.setFont(new Font("Arial", Font.BOLD, 20));
                 botaoCelula.addActionListener(e -> jogo.processarJogadaJogador(linha, coluna));
@@ -134,6 +137,7 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
     public void atualizar(String evento, Object dados) {
         SwingUtilities.invokeLater(() -> {
             atualizarVisualizacaoGeral();
+            Pokemon p;
 
             // NOVO CASE PARA INICIAR A JANELA DE BATALHA
             if ("BATALHA_INICIADA".equals(evento)) {
@@ -161,6 +165,25 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                 case "BATALHA_FUGA":
                     Treinador fujão = (Treinador) dados;
                     JOptionPane.showMessageDialog(this, fujão.getNome() + " fugiu da batalha!", "Fuga", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "FUGA_SEM_SAIDA":
+                    Pokemon pEncurralado = (Pokemon) dados;
+                    JOptionPane.showMessageDialog(this,
+                    "O " + pEncurralado.getNome() + " tentou fugir, mas não encontrou para onde ir!",
+                    "Pokémon Encurralado",
+                    JOptionPane.INFORMATION_MESSAGE);
+                // --- NOVAS MENSAGENS PARA O COMPUTADOR ---
+                case "COMPUTADOR_CAPTUROU":
+                    p = (Pokemon) dados;
+                    JOptionPane.showMessageDialog(this, "O Computador capturou um " + p.getNome() + "!", "Ação do Oponente", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "COMPUTADOR_FALHOU_CAPTURA":
+                    p = (Pokemon) dados;
+                    JOptionPane.showMessageDialog(this, "O Computador tentou capturar, mas o " + p.getNome() + " escapou!", "Ação do Oponente", JOptionPane.WARNING_MESSAGE);
+                    break;
+                case "COMPUTADOR_DESAFIOU":
+                    p = (Pokemon) dados;
+                    JOptionPane.showMessageDialog(this, "O Computador encontrou seu " + p.getNome() + " e te desafiou para uma batalha!", "Batalha!", JOptionPane.WARNING_MESSAGE);
                     break;
             }
 
@@ -194,7 +217,15 @@ public class JanelaJogo extends JFrame implements ObservadorJogo {
                     if (celula.estaVazia()) {
                         botao.setIcon(null);
                         botao.setText("");
-                        botao.setBackground(Color.DARK_GRAY);
+                        // --- LÓGICA DE COR PARA CÉLULAS VAZIAS ---
+                        Treinador quemRevelou = celula.getReveladaPor();
+                        if (quemRevelou == jogo.getJogador()) {
+                            botao.setBackground(new Color(173, 216, 230)); // Azul para o jogador
+                        } else if (quemRevelou == jogo.getComputador()) {
+                            botao.setBackground(new Color(255, 182, 193)); // Vermelho para o computador
+                        } else {
+                            botao.setBackground(Color.DARK_GRAY); // Cor padrão para vazias (ex: debug)
+                        }
                     } else {
                         Pokemon p = celula.getPokemon();
                         ImageIcon icon = PokemonImageManager.getPokemonImage(p.getNome());

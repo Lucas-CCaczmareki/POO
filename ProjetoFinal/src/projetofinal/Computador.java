@@ -1,6 +1,5 @@
 package projetofinal;
 
-//import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -8,7 +7,7 @@ import java.util.Random;
  * Herda de Treinador e implementa Runnable para que sua jogada seja
  * aleatória e executada em uma thread separada para cada turno.
  */
-public class Computador extends Treinador implements Runnable {
+public class Computador extends Treinador implements Runnable{
 
     // A referência ao Jogo é 'transient' para não ser salva no arquivo.
     // Ela será reinjetada quando o jogo for carregado.

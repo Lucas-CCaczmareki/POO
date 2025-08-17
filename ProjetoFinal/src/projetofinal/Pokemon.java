@@ -1,6 +1,5 @@
 package projetofinal;
 import java.io.Serializable;
-//import java.util.Random;
 
 /**
  * Classe abstrata que serve como base para todos os Pokémon.

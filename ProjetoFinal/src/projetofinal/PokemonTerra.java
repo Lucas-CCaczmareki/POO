@@ -17,7 +17,6 @@ public class PokemonTerra extends Pokemon {
         int danoBase = getForca() + new Random().nextInt(getNivel() * 5);
 
         if (numeroDoTurno % 2 != 0) {
-            System.out.println(getNome() + " usa sua fúria em um turno ímpar! Dano dobrado!");
             return danoBase * 2;
         }
         return danoBase;

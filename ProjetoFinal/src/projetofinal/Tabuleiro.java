@@ -72,8 +72,7 @@ public class Tabuleiro implements Serializable {
     }
 
     /**
-     * ADICIONADO: Lógica para a Fuga do Pokémon (ATIVIDADE 2).
-     * Encontra uma célula vazia e válida ao redor de uma posição.
+     * CORRIGIDO: Agora só procura por células que NÃO FORAM REVELADAS.
      */
     public Celula encontrarCelulaParaFuga(Pokemon pokemon, int linha, int coluna) {
         List<Celula> vizinhos = new ArrayList<>();
@@ -92,16 +91,24 @@ public class Tabuleiro implements Serializable {
         Collections.shuffle(vizinhos);
         
         for (Celula vizinho : vizinhos) {
-            if (vizinho.estaVazia()) {
+            // A CONDIÇÃO AGORA INCLUI A VERIFICAÇÃO SE A CÉLULA NÃO FOI REVELADA
+            if (vizinho.estaVazia() && !vizinho.isRevelada()) {
                 try {
                     validarRegiao(pokemon, vizinho.getLinha(), vizinho.getColuna());
-                    return vizinho; // Encontrou uma célula válida e vazia
+                    return vizinho;
                 } catch (RegiaoInvalidaException e) {
-                    // Continua procurando se a região não for válida
+                    // Continua procurando
                 }
             }
         }
         return null; // Não encontrou nenhuma célula válida para fuga
+    }
+    public String getTipoRegiao(int linha, int coluna) {
+        int meio = tamanhoN / 2;
+        if (linha < meio && coluna < meio) return "Água";
+        if (linha < meio && coluna >= meio) return "Floresta";
+        if (linha >= meio && coluna < meio) return "Terra";
+        return "Elétrico";
     }
 
     public void removerPokemon(int linha, int coluna) {
