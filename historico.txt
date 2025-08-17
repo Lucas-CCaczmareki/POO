@@ -13,3 +13,118 @@ Jogador 1 - Pontuação: 200
 Computador - Pontuação: 50
 Vencedor: Jogador 1
 ----------------------------------------
+Data: 2025-08-17T14:46:49.710300400
+Jogador 1 - Pontuação: 300
+Computador - Pontuação: 50
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:46:49.743389500
+Jogador 1 - Pontuação: 300
+Computador - Pontuação: 50
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:46:49.780678800
+Jogador 1 - Pontuação: 300
+Computador - Pontuação: 50
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:46:51.673348800
+Jogador 1 - Pontuação: 300
+Computador - Pontuação: 50
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:47:24.466631100
+Jogador 1 - Pontuação: 320
+Computador - Pontuação: 30
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:47:24.488325200
+Jogador 1 - Pontuação: 320
+Computador - Pontuação: 30
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:47:24.507310600
+Jogador 1 - Pontuação: 320
+Computador - Pontuação: 30
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:47:26.446443300
+Jogador 1 - Pontuação: 320
+Computador - Pontuação: 30
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:48:10.052112800
+Jogador 1 - Pontuação: 310
+Computador - Pontuação: 40
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:48:10.074315500
+Jogador 1 - Pontuação: 310
+Computador - Pontuação: 40
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:48:10.096480400
+Jogador 1 - Pontuação: 310
+Computador - Pontuação: 40
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T14:48:12.032579400
+Jogador 1 - Pontuação: 310
+Computador - Pontuação: 40
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T15:14:26.245937100
+Jogador 1 - Pontuação: 270
+Computador - Pontuação: 180
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T15:14:26.277996
+Jogador 1 - Pontuação: 270
+Computador - Pontuação: 180
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T15:14:26.299908200
+Jogador 1 - Pontuação: 270
+Computador - Pontuação: 180
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T15:14:28.218422700
+Jogador 1 - Pontuação: 270
+Computador - Pontuação: 180
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T15:21:03.850419300
+Jogador 1 - Pontuação: 180
+Computador - Pontuação: 220
+Vencedor: Computador
+----------------------------------------
+Data: 2025-08-17T15:21:03.886455900
+Jogador 1 - Pontuação: 180
+Computador - Pontuação: 220
+Vencedor: Computador
+----------------------------------------
+Data: 2025-08-17T15:21:03.915174100
+Jogador 1 - Pontuação: 180
+Computador - Pontuação: 220
+Vencedor: Computador
+----------------------------------------
+Data: 2025-08-17T15:27:07.213758600
+Jogador 1 - Pontuação: 310
+Computador - Pontuação: 90
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T15:27:07.248176
+Jogador 1 - Pontuação: 310
+Computador - Pontuação: 90
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T15:27:07.270595900
+Jogador 1 - Pontuação: 310
+Computador - Pontuação: 90
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T15:27:09.178060900
+Jogador 1 - Pontuação: 310
+Computador - Pontuação: 90
+Vencedor: Jogador 1
+----------------------------------------
