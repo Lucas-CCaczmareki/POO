@@ -1,23 +1,34 @@
 package pokemon;
 
+import java.util.Random;
+
 public class PokemonAgua extends Pokemon {
-    
-    public PokemonAgua(String nome) {
-        super(nome, "Agua", 30);
+
+    /**
+     * Construtor flexível para criar Pokémon de Água com stats diferentes.
+     */
+    public PokemonAgua(String nome, int energia, int forca, int nivel) {
+        super(nome, "Água", energia, forca, nivel);
     }
-    
+
+    /**
+     * Calcula o dano de ataque normal do Pokémon de Água.
+     */
     @Override
-    public int calcularDano() {
-        // Agua: reducao de dano recebido em ambientes adversos
-        int danoBase = (forca + random.nextInt(nivel + 1));
-        int fatorTipo = 1;
-        int bonusHabilidade = 0;
-        
-        // Reducao de dano em ambientes adversos (implementacao simplificada)
-        if (energia < 50) {
-            bonusHabilidade = 5; // Bonus defensivo quando energia baixa
-        }
-        
-        return danoBase * fatorTipo + bonusHabilidade;
+    public int calcularDano(int numeroDoTurno) {
+        // Fórmula de ataque padrão.
+        return getForca() + new Random().nextInt(getNivel() * 5);
+    }
+
+    /**
+     * HABILIDADE ESPECIAL: Redução de dano recebido.
+     * Este método é sobrescrito da classe pai para aplicar a habilidade defensiva.
+     * @param dano O dano original do ataque do oponente.
+     */
+    @Override
+    public void receberDano(int dano) {
+        int danoReduzido = (int) (dano * 0.8); // Reduz o dano em 20%
+        System.out.println(getNome() + " resistiu ao ataque com sua defesa de água!");
+        super.receberDano(danoReduzido);
     }
 }

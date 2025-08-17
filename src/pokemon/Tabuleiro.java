@@ -1,100 +1,116 @@
 package pokemon;
 
 import java.io.Serializable;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+/**
+ * Gerencia a grade N x N do jogo. Esta versão foi corrigida e completada
+ * para incluir todas as validações e métodos de ajuda necessários para
+ * as regras do jogo.
+ */
 public class Tabuleiro implements Serializable {
-    private static final int TAMANHO = 8;
-    private Celula[][] grade;
-    private Random random;
-    
-    public Tabuleiro() {
-        this.grade = new Celula[TAMANHO][TAMANHO];
-        this.random = new Random();
-        
-        // Inicializar todas as células
-        for (int i = 0; i < TAMANHO; i++) {
-            for (int j = 0; j < TAMANHO; j++) {
+
+    private final Celula[][] grade;
+    private final int tamanhoN;
+
+    public Tabuleiro(int tamanhoN) {
+        if (tamanhoN % 2 != 0 || tamanhoN <= 0) {
+            throw new IllegalArgumentException("O tamanho N do tabuleiro deve ser um número par e positivo.");
+        }
+        this.tamanhoN = tamanhoN;
+        this.grade = new Celula[tamanhoN][tamanhoN];
+        for (int i = 0; i < tamanhoN; i++) {
+            for (int j = 0; j < tamanhoN; j++) {
                 grade[i][j] = new Celula(i, j);
             }
         }
     }
-    
+
     public void posicionarPokemon(Pokemon pokemon, int linha, int coluna) throws RegiaoInvalidaException {
-        if (!isRegiaoValida(pokemon.getTipo(), linha, coluna)) {
-            throw new RegiaoInvalidaException("Pokémon " + pokemon.getNome() + " não pode ser posicionado nesta região!");
+        if (linha < 0 || linha >= tamanhoN || coluna < 0 || coluna >= tamanhoN) {
+            throw new IndexOutOfBoundsException("Posição [" + linha + "][" + coluna + "] está fora do tabuleiro.");
         }
-        
-        if (grade[linha][coluna].getPokemon() != null) {
-            throw new RegiaoInvalidaException("Posição já ocupada!");
+        if (!this.grade[linha][coluna].estaVazia()) {
+            throw new IllegalStateException("A célula [" + linha + "][" + coluna + "] já está ocupada.");
         }
-        
-        grade[linha][coluna].setPokemon(pokemon);
+
+        validarRegiao(pokemon, linha, coluna);
+        this.grade[linha][coluna].setPokemon(pokemon);
     }
-    
-    public void posicionarPokemonAleatorio(Pokemon pokemon) {
-        int linha, coluna;
-        int tentativas = 0;
-        boolean posicionado = false;
+
+    private void validarRegiao(Pokemon pokemon, int linha, int coluna) throws RegiaoInvalidaException {
+        int meio = tamanhoN / 2;
+        String tipo = pokemon.getTipo();
+        String erroMsg = "A posição [" + linha + "][" + coluna + "] não é válida para um Pokémon do tipo " + tipo + ".";
         
-        while (!posicionado && tentativas < 200) {
-            linha = random.nextInt(TAMANHO);
-            coluna = random.nextInt(TAMANHO);
-            tentativas++;
-            
-            if (isRegiaoValida(pokemon.getTipo(), linha, coluna) && grade[linha][coluna].getPokemon() == null) {
-                grade[linha][coluna].setPokemon(pokemon);
-                posicionado = true;
-                System.out.println("Pokémon " + pokemon.getNome() + " posicionado em (" + linha + "," + coluna + ")");
+        // CORRIGIDO: Nomes dos tipos com acentuação correta
+        if (linha < meio && coluna < meio) {
+            if (!tipo.equals("Água")) throw new RegiaoInvalidaException(erroMsg);
+        } else if (linha < meio && coluna >= meio) {
+            if (!tipo.equals("Floresta")) throw new RegiaoInvalidaException(erroMsg);
+        } else if (linha >= meio && coluna < meio) {
+            if (!tipo.equals("Terra")) throw new RegiaoInvalidaException(erroMsg);
+        } else if (linha >= meio && coluna >= meio) {
+            if (!tipo.equals("Elétrico")) throw new RegiaoInvalidaException(erroMsg);
+        }
+    }
+
+    /**
+     * ADICIONADO: Lógica para a Dica (ATIVIDADE 2).
+     * Verifica se existe algum Pokémon na linha ou coluna informada.
+     */
+    public boolean verificarDica(int linha, int coluna) {
+        for (int j = 0; j < tamanhoN; j++) {
+            if (!grade[linha][j].estaVazia()) return true;
+        }
+        for (int i = 0; i < tamanhoN; i++) {
+            if (!grade[i][coluna].estaVazia()) return true;
+        }
+        return false;
+    }
+
+    /**
+     * ADICIONADO: Lógica para a Fuga do Pokémon (ATIVIDADE 2).
+     * Encontra uma célula vazia e válida ao redor de uma posição.
+     */
+    public Celula encontrarCelulaParaFuga(Pokemon pokemon, int linha, int coluna) {
+        List<Celula> vizinhos = new ArrayList<>();
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;
+                int novaLinha = linha + i;
+                int novaColuna = coluna + j;
+
+                if (novaLinha >= 0 && novaLinha < tamanhoN && novaColuna >= 0 && novaColuna < tamanhoN) {
+                    vizinhos.add(grade[novaLinha][novaColuna]);
+                }
             }
         }
         
-        if (!posicionado) {
-            System.out.println("ERRO: Não foi possível posicionar " + pokemon.getNome());
+        Collections.shuffle(vizinhos);
+        
+        for (Celula vizinho : vizinhos) {
+            if (vizinho.estaVazia()) {
+                try {
+                    validarRegiao(pokemon, vizinho.getLinha(), vizinho.getColuna());
+                    return vizinho; // Encontrou uma célula válida e vazia
+                } catch (RegiaoInvalidaException e) {
+                    // Continua procurando se a região não for válida
+                }
+            }
         }
+        return null; // Não encontrou nenhuma célula válida para fuga
     }
-    
-    public boolean isRegiaoValida(String tipo, int linha, int coluna) {
-        switch (tipo) {
-            case "Agua":
-                return linha < TAMANHO/2 && coluna < TAMANHO/2;
-            case "Floresta":
-                return linha < TAMANHO/2 && coluna >= TAMANHO/2;
-            case "Terra":
-                return linha >= TAMANHO/2 && coluna < TAMANHO/2;
-            case "Eletrico":
-                return linha >= TAMANHO/2 && coluna >= TAMANHO/2;
-            default:
-                return false;
-        }
-    }
-    
-    public Pokemon getPokemon(int linha, int coluna) {
-        return grade[linha][coluna].getPokemon();
-    }
-    
-    public Celula getCelula(int linha, int coluna) {
-        return grade[linha][coluna];
-    }
-    
+
     public void removerPokemon(int linha, int coluna) {
         grade[linha][coluna].setPokemon(null);
     }
     
-    public void moverPokemon(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino) {
-        if (grade[linhaOrigem][colunaOrigem].getPokemon() != null && grade[linhaDestino][colunaDestino].getPokemon() == null) {
-            grade[linhaDestino][colunaDestino].setPokemon(grade[linhaOrigem][colunaOrigem].getPokemon());
-            grade[linhaOrigem][colunaOrigem].setPokemon(null);
-        }
-    }
-    
-    public int getTamanho() {
-        return TAMANHO;
-    }
-    
     public boolean temPokemonSelvagem() {
-        for (int i = 0; i < TAMANHO; i++) {
-            for (int j = 0; j < TAMANHO; j++) {
+        for (int i = 0; i < tamanhoN; i++) {
+            for (int j = 0; j < tamanhoN; j++) {
                 if (grade[i][j].getPokemon() != null && grade[i][j].getPokemon().isSelvagem()) {
                     return true;
                 }
@@ -102,32 +118,8 @@ public class Tabuleiro implements Serializable {
         }
         return false;
     }
-    
-    public int contarPokemonsSelvagens() {
-        int count = 0;
-        for (int i = 0; i < TAMANHO; i++) {
-            for (int j = 0; j < TAMANHO; j++) {
-                if (grade[i][j].getPokemon() != null && grade[i][j].getPokemon().isSelvagem()) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-    
-    public int contarPokemons() {
-        int count = 0;
-        for (int i = 0; i < TAMANHO; i++) {
-            for (int j = 0; j < TAMANHO; j++) {
-                if (grade[i][j].getPokemon() != null) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-    
-    public Celula[][] getGrade() {
-        return grade;
-    }
+
+    // --- Getters ---
+    public Celula[][] getGrade() { return grade; }
+    public int getTamanhoN() { return tamanhoN; }
 }

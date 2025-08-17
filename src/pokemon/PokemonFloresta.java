@@ -1,23 +1,24 @@
 package pokemon;
 
+import java.util.Random;
+
 public class PokemonFloresta extends Pokemon {
-    
-    public PokemonFloresta(String nome) {
-        super(nome, "Floresta", 25);
+
+    public PokemonFloresta(String nome, int energia, int forca, int nivel) {
+        super(nome, "Floresta", energia, forca, nivel);
     }
-    
+
+    /**
+     * [cite_start]HABILIDADE ESPECIAL: Regeneração (cura parte do dano ao atacar). [cite: 88]
+     */
     @Override
-    public int calcularDano() {
-        // Floresta: habilidade de regeneração (cura parte do dano ao atacar)
-        int danoBase = (forca + random.nextInt(nivel + 1));
-        int fatorTipo = 1;
-        int bonusHabilidade = 0;
-        
-        // Regeneração ao atacar
-        int cura = 10;
-        curar(cura);
-        bonusHabilidade = cura; // Bônus baseado na cura
-        
-        return danoBase * fatorTipo + bonusHabilidade;
+    public int calcularDano(int numeroDoTurno) {
+        // Lógica de cura que acontece durante o ataque
+        int cura = (int) (getForca() * 0.2); // Cura 20% do valor da sua força
+        this.curar(cura); // Usa o método de cura da classe pai
+        System.out.println(getNome() + " usou a regeneração e curou " + cura + " de vida!");
+
+        // Calcula e retorna o dano do ataque
+        return getForca() + new Random().nextInt(getNivel() * 5);
     }
 }

@@ -1,0 +1,15 @@
+Data: 2025-08-17T13:32:46.681212100
+Jogador 1 - Pontuação: 200
+Computador - Pontuação: 50
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T13:32:46.713830700
+Jogador 1 - Pontuação: 200
+Computador - Pontuação: 50
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T13:32:48.511565500
+Jogador 1 - Pontuação: 200
+Computador - Pontuação: 50
+Vencedor: Jogador 1
+----------------------------------------

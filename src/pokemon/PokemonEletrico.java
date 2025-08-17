@@ -1,27 +1,29 @@
 package pokemon;
 
+import java.util.Random;
+
 public class PokemonEletrico extends Pokemon {
-    
-    public PokemonEletrico(String nome) {
-        super(nome, "Eletrico", 40);
+
+    private static final double CHANCE_PARALISAR = 0.25; // 25%
+
+    public PokemonEletrico(String nome, int energia, int forca, int nivel) {
+        super(nome, "Elétrico", energia, forca, nivel);
     }
-    
+
+    /**
+     * Calcula o dano de ataque normal. A habilidade de paralisar é um efeito secundário.
+     */
     @Override
-    public int calcularDano() {
-        // Eletrico: chance de paralisar o adversário por 1 rodada
-        int danoBase = (forca + random.nextInt(nivel + 1));
-        int fatorTipo = 1;
-        int bonusHabilidade = 0;
-        
-        // Chance de paralisar (30% de chance)
-        if (random.nextInt(100) < 30) {
-            bonusHabilidade = 15; // Bônus por paralisar
-        }
-        
-        return danoBase * fatorTipo + bonusHabilidade;
+    public int calcularDano(int numeroDoTurno) {
+        return getForca() + new Random().nextInt(getNivel() * 5);
     }
-    
+
+    /**
+     * [cite_start]HABILIDADE ESPECIAL: Chance de paralisar o adversário por 1 rodada. [cite: 90]
+     * A classe Jogo deve chamar este método após um ataque para verificar o efeito.
+     * @return true se conseguiu paralisar, false caso contrário.
+     */
     public boolean tentarParalisar() {
-        return random.nextInt(100) < 30;
+        return new Random().nextDouble() < CHANCE_PARALISAR;
     }
 }
