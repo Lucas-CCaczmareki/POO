@@ -18,3 +18,23 @@ Jogador 1 - Pontuação: 350
 Computador - Pontuação: 50
 Vencedor: Jogador 1
 ----------------------------------------
+Data: 2025-08-17T16:15:16.861405100
+Jogador 1 - Pontuação: 360
+Computador - Pontuação: 40
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T16:15:16.901747600
+Jogador 1 - Pontuação: 360
+Computador - Pontuação: 40
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T16:15:16.921662900
+Jogador 1 - Pontuação: 360
+Computador - Pontuação: 40
+Vencedor: Jogador 1
+----------------------------------------
+Data: 2025-08-17T16:15:18.829438200
+Jogador 1 - Pontuação: 360
+Computador - Pontuação: 40
+Vencedor: Jogador 1
+----------------------------------------
