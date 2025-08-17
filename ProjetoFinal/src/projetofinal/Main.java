@@ -4,12 +4,13 @@ import javax.swing.SwingUtilities;
 
 public class Main {
     public static void main(String[] args) {
-        // Garante que a interface gráfica seja executada na thread de eventos (prática recomendada)
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new VisualizadorTabuleiro().setVisible(true);
-            }
+        // 1. Cria a instância da lógica do jogo.
+        Jogo jogo = new Jogo();
+
+        // 2. Agenda a criação da interface gráfica na Thread de Eventos do Swing (EDT).
+        SwingUtilities.invokeLater(() -> {
+            VisualizadorTabuleiro janela = new VisualizadorTabuleiro(jogo);
+            janela.setVisible(true);
         });
     }
 }

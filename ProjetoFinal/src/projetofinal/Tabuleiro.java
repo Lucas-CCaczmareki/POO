@@ -46,6 +46,9 @@ public class Tabuleiro {
         return this.grade[linha][coluna];
     }
     
+    public int getTamanhoN() {
+        return tamanhoN;
+    }
 
 
 }
