@@ -1,20 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package projetofinal;
 
-/**
- *
- * @author lucas
- */
-public class Main {
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
-    /**
-     * @param args the command line arguments
-     */
+public class Main {
     public static void main(String[] args) {
-        System.out.println("Ola mundo!");
+        // Tenta aplicar o Look and Feel do sistema operacional para uma aparência mais nativa.
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // Garante que a interface gráfica seja iniciada na thread correta (EDT).
+        SwingUtilities.invokeLater(() -> {
+            // Usa o nome corrigido da nossa classe de boas-vindas.
+            new JanelaBoasVindas().setVisible(true);
+        });
     }
-    
 }
