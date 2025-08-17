@@ -5,7 +5,7 @@ public abstract class Pokemon implements IAtaque {
     private String nome;
     private int energia;
     private int forca;
-    private int experience;
+    private int experience = 0;
     private int nivel;
     private String tipo;
 
@@ -34,10 +34,13 @@ public abstract class Pokemon implements IAtaque {
         }
     }
 
+    public boolean isSelvagem() {
+        return this.selvagem;
+    }
+
     /*
-        * Versão genérica do calcularDano que vai ser sobreescrita pelas classes de pokemon que implementam os tipos
-        * 
-        */
+    * Versão genérica do calcularDano que vai ser sobreescrita pelas classes de pokemon que implementam os tipos
+    */
     @Override
     public abstract int calcularDano(Pokemon oponente, int turnoAtual);
 
@@ -72,7 +75,7 @@ public abstract class Pokemon implements IAtaque {
         this.energia = energia;
     }
     public void setExperience(int experience) {
-        this.experience = experience;
+        this.experience += experience;
     }
     public void setForca(int forca) {
         this.forca = forca;
