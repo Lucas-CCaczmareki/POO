@@ -4,13 +4,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/* Função do Serializable
+ *  Serializable permite que os objetos dessa classe podem ser convertidos
+ *  em uma sequência de bytes. É isso que permite salvar o estado dos pokémons em um arquivo
+*/
+    
+/*
+ * Treinador representa um dos jogadores do jogo. Essa classe contém os métodos e atributos
+ * associados à um jogador.
+ */
 public class Treinador implements Serializable {
+    
+    //Atributos
     private String nome;
     private List<Pokemon> mochila; 
     private int pontuacao;
     private Pokemon pokemonPrincipal; 
 
+    //Construtor
     public Treinador(String nome) {
         this.nome = nome;
         this.mochila = new ArrayList<>();
@@ -44,24 +55,29 @@ public class Treinador implements Serializable {
      * @param indiceNaMochila O índice do Pokémon na mochila que se tornará o principal.
      */
     public void trocarPokemonPrincipal(int indiceNaMochila) {
+        //Verifica se o índice é válido
         if (indiceNaMochila >= 0 && indiceNaMochila < mochila.size()) {
+            //Guarda o pokemon que vai se tornar o principal
             Pokemon novoPrincipal = mochila.get(indiceNaMochila);
 
-            
+            //Retira o pokemon da mochila
             mochila.remove(indiceNaMochila);
             
-            
+            //Coloca o pokemon principal atual na mochila
             if (this.pokemonPrincipal != null) {
                 mochila.add(this.pokemonPrincipal);
             }
             
-            
+            //Troca o pokémon principal
             this.pokemonPrincipal = novoPrincipal;
             System.out.println(nome + " trocou para " + pokemonPrincipal.getNome());
         }
     }
 
-    
+    /*
+     * Sempre que um treinador(jogador ou computador) faz uma ação, 
+     * essa função zera e calcula a pontuação total dele.
+     */
     public void atualizarPontuacao() {
         pontuacao = 0;
         
@@ -82,7 +98,7 @@ public class Treinador implements Serializable {
         return pokemonPrincipal != null && pokemonPrincipal.getEnergia() > 0;
     }
 
-    
+    //Getters e setters
     public String getNome() { return nome; }
     public List<Pokemon> getMochila() { return mochila; }
     public int getPontuacao() { return pontuacao; }

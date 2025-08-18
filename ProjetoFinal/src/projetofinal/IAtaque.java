@@ -1,5 +1,8 @@
 package projetofinal;
 
+/*
+ *  Interface que é implementada pelos Pokémons para calcular seus ataques
+ */
 public interface IAtaque {
     /**
      * Calcula o dano de um ataque.

@@ -1,9 +1,18 @@
 package projetofinal;
 
+/*
+ * Essa classe implementa o padrão de projeto Factory
+ * Onde não precisamos saber como instanciar cada tipo de pokémon, isso é padronizado
+ *  dentro dessa classe.
+ * 
+ * Isso facilita a manutenção, expansão e evita duplicação de código.
+ * Centraliza a lógica de criação de pokémons
+ */
 
 public class PokemonFactory {
     
     /**
+     * O método estático serve para que possamos utilizá-la sem instanciar um objeto dessa classe.
      * @param nome O nome do Pokémon a ser criado.
      * @return Uma instância da subclasse de Pokémon correspondente.
      */

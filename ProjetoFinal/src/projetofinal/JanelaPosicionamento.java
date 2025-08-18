@@ -9,8 +9,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/*
+ * Essa classe é responsável por gerenciar a janela que abre na opção de posicionar o pokémon
+ */
 public class JanelaPosicionamento extends JFrame {
 
+    //Atributos
     private Jogo jogo;
     private JButton[][] botoesGrid;
     private JComboBox<String> comboPokemon;
@@ -19,6 +23,7 @@ public class JanelaPosicionamento extends JFrame {
     private JButton btnJogar;
     private final int TAMANHO_GRID = 8;
 
+    //Construtor
     public JanelaPosicionamento() {
         this.jogo = new Jogo(true); 
         configurarJanela();
@@ -33,13 +38,17 @@ public class JanelaPosicionamento extends JFrame {
     }
 
     private void criarComponentes() {
+        
+        //Estético
         setLayout(new BorderLayout(10, 10));
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        
+        //Cria o painel com as opçoes
         JPanel painelSuperior = new JPanel(new BorderLayout());
         labelInstrucao = new JLabel("1. Selecione seu Pokémon inicial e posicione-o na região correta.", SwingConstants.CENTER);
         labelInstrucao.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        //Cria o painel que te permite selecionar um dos pokémons
         JPanel painelSelecao = new JPanel();
         comboPokemon = new JComboBox<>(PokemonFactory.getPokemonsDisponiveis());
         comboPokemon.addActionListener(e -> atualizarPokemonSelecionado());
@@ -49,7 +58,10 @@ public class JanelaPosicionamento extends JFrame {
         painelSuperior.add(painelSelecao, BorderLayout.CENTER);
         add(painelSuperior, BorderLayout.NORTH);
 
-        
+        /*
+         * Cria um pseudo tabuleiro com botões clicávies dentro dessa janela 
+         * para que o jogador consiga posicionar seu Pokémon.
+         */
         JPanel painelTabuleiro = new JPanel(new GridLayout(TAMANHO_GRID, TAMANHO_GRID, 5, 5));
         botoesGrid = new JButton[TAMANHO_GRID][TAMANHO_GRID];
         for (int i = 0; i < TAMANHO_GRID; i++) {
@@ -68,7 +80,7 @@ public class JanelaPosicionamento extends JFrame {
         }
         add(painelTabuleiro, BorderLayout.CENTER);
         
-        
+        //Cria o painel inferior com um botão para iniciar o jogo
         JPanel painelInferior = new JPanel();
         btnJogar = new JButton("Jogar");
         btnJogar.setFont(new Font("Arial", Font.BOLD, 16));
@@ -80,11 +92,17 @@ public class JanelaPosicionamento extends JFrame {
         atualizarPokemonSelecionado();
     }
 
+    //Cria uma instância de um pokémon toda vez que a opção para trocar for selecionada
+    //Essas instâncias vão sendo criadas infinitamente até que sejam limpas pelo java
+    //ou estourem a memória disponível
     private void atualizarPokemonSelecionado() {
         String nomePokemon = (String) comboPokemon.getSelectedItem();
         this.pokemonSelecionado = PokemonFactory.criarPokemon(nomePokemon);
     }
 
+    /*
+     * Quando o jogador clicar na célula desejada, posiciona o pokémon selecionado lá
+     */
     private void clicarCelula(int linha, int coluna) {
         if (pokemonSelecionado == null || !comboPokemon.isEnabled()) return;
 
@@ -97,6 +115,9 @@ public class JanelaPosicionamento extends JFrame {
             
             jogo.getJogador().adicionarPokemonInicial(pokemonSelecionado);
             
+            //Desabilita os outros botões e a seleção de pokémon 
+            //(já que nesse ponto o jogador já selecionou)
+            //(no estado atual não tem como voltar essa ação)
             comboPokemon.setEnabled(false);
             for (int i = 0; i < TAMANHO_GRID; i++) {
                 for (int j = 0; j < TAMANHO_GRID; j++) {
@@ -108,12 +129,15 @@ public class JanelaPosicionamento extends JFrame {
             posicionarRestante();
             btnJogar.setEnabled(true);
 
+        //Captura uma exceção se o jogador quiser posicionar o pokémon numa posição inválida
         } catch (RegiaoInvalidaException | IllegalStateException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Posição Inválida", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-
+    /*
+     * Escolhe o pokémon de forma aleatória e a aleatoriza a posição
+     */
     private void posicionarRestante() {
         List<String> nomesRestantes = new ArrayList<>(Arrays.asList(PokemonFactory.getPokemonsDisponiveis()));
         nomesRestantes.remove(pokemonSelecionado.getNome());
@@ -130,6 +154,7 @@ public class JanelaPosicionamento extends JFrame {
         }
     }
 
+    /* faz a lógica de selecionar uma posição aleatória no tabuleiro */
     private void posicionarAleatoriamente(Pokemon pokemon) {
         while (true) {
             try {
@@ -143,6 +168,7 @@ public class JanelaPosicionamento extends JFrame {
         }
     }
 
+    /* inicia a janela jogo com o tabuleiro que foi criado */
     private void iniciarJogo() {
         new JanelaJogo(this.jogo).setVisible(true);
         this.dispose();
